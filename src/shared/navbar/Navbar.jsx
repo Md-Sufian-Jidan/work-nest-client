@@ -1,61 +1,72 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { NavLink } from "react-router-dom";
 import { Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
-export default function Navbar() {
+export default function Navbar({ user, handleLogout }) {
   const [isOpen, setIsOpen] = useState(false);
-  const isAuthenticated = false; // toggle for demo
 
-  const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "Dashboard", href: "/dashboard" },
-    { name: "Contact Us", href: "/contact" },
-  ];
+  const linkClass = "text-sm font-semibold px-3 py-1 transition duration-200 rounded hover:bg-blue-100";
+  const activeClass = "bg-blue-100 text-blue-700";
+
+  const navLinks = (
+    <>
+      <li>
+        <NavLink to="/" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>
+          Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/features" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>
+          Features
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/appointment" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>
+          Appointments
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/pricing" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>
+          Pricing
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/contact" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>
+          Contact
+        </NavLink>
+      </li>
+      {user && (
+        <li>
+          <NavLink to="/dashboard" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>
+            Dashboard
+          </NavLink>
+        </li>
+      )}
+      {user ? (
+        <li>
+          <button onClick={handleLogout} className="text-sm text-red-500 hover:underline font-semibold">Logout</button>
+        </li>
+      ) : (
+        <li>
+          <NavLink to="/signIn" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>
+            Sign In
+          </NavLink>
+        </li>
+      )}
+    </>
+  );
 
   return (
-    <nav className="w-full bg-white shadow-md fixed top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-        {/* Logo */}
+    <nav className="bg-white shadow-md fixed w-full z-50 top-0">
+      <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         <div className="text-2xl font-bold text-blue-600">WorkNest</div>
 
-        {/* Desktop Nav */}
-        <ul className="hidden md:flex items-center gap-6 font-medium text-gray-700">
-          {navLinks.map((link) => (
-            <li key={link.name}>
-              <a href={link.href} className="hover:text-blue-600 transition">{link.name}</a>
-            </li>
-          ))}
-        </ul>
+        {/* Desktop Menu */}
+        <ul className="hidden md:flex items-center space-x-4">{navLinks}</ul>
 
-        {/* Auth Buttons */}
-        <div className="hidden md:flex items-center gap-4">
-          {isAuthenticated ? (
-            <>
-              <img
-                src="https://i.pravatar.cc/40"
-                alt="User"
-                className="w-9 h-9 rounded-full"
-              />
-              <button className="text-sm text-red-500 hover:underline">Logout</button>
-            </>
-          ) : (
-            <>
-              <a href="/login" className="text-sm text-blue-600 hover:underline">Login</a>
-              <a
-                href="/register"
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700"
-              >
-                Register
-              </a>
-            </>
-          )}
-        </div>
-
-        {/* Hamburger */}
-        <button
-          className="md:hidden"
-          onClick={() => setIsOpen((prev) => !prev)}
-        >
+        {/* Hamburger for Mobile */}
+        <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
@@ -64,41 +75,12 @@ export default function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="md:hidden bg-white shadow-lg px-4 py-4"
             initial={{ height: 0 }}
             animate={{ height: "auto" }}
             exit={{ height: 0 }}
-            transition={{ duration: 0.3 }}
+            className="bg-white md:hidden px-4 py-4 shadow-md"
           >
-            <ul className="flex flex-col gap-4 font-medium text-gray-700">
-              {navLinks.map((link) => (
-                <li key={link.name}>
-                  <a href={link.href} className="block hover:text-blue-600 transition">{link.name}</a>
-                </li>
-              ))}
-              {isAuthenticated ? (
-                <>
-                  <div className="flex items-center gap-2">
-                    <img
-                      src="https://i.pravatar.cc/40"
-                      alt="User"
-                      className="w-8 h-8 rounded-full"
-                    />
-                    <button className="text-sm text-red-500 hover:underline">Logout</button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <a href="/login" className="text-sm text-blue-600 hover:underline">Login</a>
-                  <a
-                    href="/register"
-                    className="block px-4 py-2 mt-2 bg-blue-600 text-white rounded-lg text-sm text-center hover:bg-blue-700"
-                  >
-                    Register
-                  </a>
-                </>
-              )}
-            </ul>
+            <ul className="space-y-2">{navLinks}</ul>
           </motion.div>
         )}
       </AnimatePresence>
