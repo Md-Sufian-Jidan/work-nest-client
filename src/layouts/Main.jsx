@@ -5,11 +5,11 @@ import Footer from '../shared/footer/Footer';
 const Main = () => {
     return (
         <div>
-            <div className='h-16'>
-            <Navbar />
+            <div className='h-20'>
+                <Navbar />
             </div>
             <div className='min-h-[calc(100vh-310px)]'>
-            <Outlet />
+                <Outlet />
             </div>
             <Footer />
         </div>

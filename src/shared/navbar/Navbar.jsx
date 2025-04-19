@@ -2,88 +2,109 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import useAuth from "../../hooks/useAuth";
+import Swal from "sweetalert2";
 
-export default function Navbar({ user, handleLogout }) {
-  const [isOpen, setIsOpen] = useState(false);
+const Navbar = () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const { user, logOut } = useAuth();
 
-  const linkClass = "text-sm font-semibold px-3 py-1 transition duration-200 rounded hover:bg-blue-100";
-  const activeClass = "bg-blue-100 text-blue-700";
+    const linkClass = "w-full text-sm text-black font-medium px-3 py-2 rounded transition hover:bg-blue-100 hover:text-blue-600";
+    const activeClass = "w-full text-blue-600 bg-blue-200";
 
-  const navLinks = (
-    <>
-      <li>
-        <NavLink to="/" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>
-          Home
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/features" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>
-          Features
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/appointment" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>
-          Appointments
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/pricing" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>
-          Pricing
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/contact" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>
-          Contact
-        </NavLink>
-      </li>
-      {user && (
-        <li>
-          <NavLink to="/dashboard" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>
-            Dashboard
-          </NavLink>
-        </li>
-      )}
-      {user ? (
-        <li>
-          <button onClick={handleLogout} className="text-sm text-red-500 hover:underline font-semibold">Logout</button>
-        </li>
-      ) : (
-        <li>
-          <NavLink to="/signIn" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>
-            Sign In
-          </NavLink>
-        </li>
-      )}
-    </>
-  );
+    const handleLogout = () => {
+        logOut()
+            .then(res => {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'User Logout successfully.',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
+            .catch(err => {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: err.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
+    };
 
-  return (
-    <nav className="bg-white shadow-md fixed w-full z-50 top-0">
-      <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-        <div className="text-2xl font-bold text-blue-600">WorkNest</div>
+    const navLinks = (
+        <>
+            <li>
+                <NavLink to="/" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>
+                    Home
+                </NavLink>
+            </li>
+            <li>
+                <NavLink to="/contact" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>
+                    Contact
+                </NavLink>
+            </li>
+            {user && (
+                <li>
+                    <NavLink to="/dashboard" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>
+                        Dashboard
+                    </NavLink>
+                </li>
+            )}
+            {user ? (
+                <li>
+                    <button
+                        onClick={handleLogout}
+                        className="text-sm font-medium text-red-500 hover:underline"
+                    >
+                        Logout
+                    </button>
+                </li>
+            ) : (
+                <li>
+                    <NavLink
+                        to="/register"
+                        className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}
+                    >
+                        Register
+                    </NavLink>
+                </li>
+            )}
+        </>
+    );
 
-        {/* Desktop Menu */}
-        <ul className="hidden md:flex items-center space-x-4">{navLinks}</ul>
+    return (
+        <nav className="w-full fixed top-0 z-50 bg-white shadow-md">
+            <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+                {/* Logo */}
+                <div className="text-xl font-bold text-blue-600 tracking-tight">WorkNest</div>
 
-        {/* Hamburger for Mobile */}
-        <button className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
+                {/* Desktop Nav */}
+                <ul className="hidden md:flex items-center space-x-2">{navLinks}</ul>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0 }}
-            animate={{ height: "auto" }}
-            exit={{ height: 0 }}
-            className="bg-white md:hidden px-4 py-4 shadow-md"
-          >
-            <ul className="space-y-2">{navLinks}</ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
-  );
+                {/* Hamburger Button */}
+                <button className="md:hidden text-black" onClick={() => setIsOpen(!isOpen)}>
+                    {isOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
+            </div>
+
+            {/* Mobile Menu */}
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ height: 0 }}
+                        animate={{ height: "auto" }}
+                        exit={{ height: 0 }}
+                        className="bg-white shadow-md md:hidden px-4 pb-4"
+                    >
+                        <ul className="space-y-2 pt-2">{navLinks}</ul>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </nav>
+    );
 }
+
+export default Navbar
