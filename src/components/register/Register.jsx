@@ -1,7 +1,10 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import useAuth from "../../hooks/useAuth";
+import Swal from 'sweetalert2'
 
 const Register = () => {
+    const { createUser } = useAuth();
     const {
         register,
         handleSubmit,
@@ -12,6 +15,15 @@ const Register = () => {
 
     const onSubmit = (data) => {
         console.log(data);
+        createUser(data.email, data.password)
+            .then()
+            .catch(err => {
+                Swal.fire({
+                    title: "Error!",
+                    text: err.message,
+                    icon: "error"
+                });
+            })
     };
 
     const handleImageChange = (e) => {
@@ -146,9 +158,6 @@ const Register = () => {
                         <div className="flex justify-center gap-4">
                             <button className="bg-gray-100 p-2 rounded hover:shadow">
                                 <img src="/google-icon.svg" alt="Google" className="w-5 h-5" />
-                            </button>
-                            <button className="bg-gray-100 p-2 rounded hover:shadow">
-                                <img src="/github-icon.svg" alt="GitHub" className="w-5 h-5" />
                             </button>
                         </div>
                     </div>

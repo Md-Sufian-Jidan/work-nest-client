@@ -40,7 +40,7 @@ const Banner = () => {
               <img
                 src={slide?.image}
                 alt={slide?.title}
-                className="w-full h-full object-cover"
+                className="h-[60vh] w-full object-cover"
               />
               <div className="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-white text-center px-4">
                 <h2 className="text-3xl md:text-5xl font-bold drop-shadow">{slide.title}</h2>
