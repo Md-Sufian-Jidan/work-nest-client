@@ -5,8 +5,8 @@ import Login from "../components/Login/Login";
 import Register from "../components/register/Register";
 import WorkSheet from "../pages/dashboard/WorkSheet/WorkSheet";
 import Dashboard from "../layouts/Dashboard";
-import PaymentHistory from "../pages/dashboard/PaymentHistory";
 import PrivateRoute from "./PrivateRoute";
+import PaymentHistory from "../pages/dashboard/PaymentHistory/PaymentHistory";
 
 export const router = createBrowserRouter([
     {
@@ -32,13 +32,13 @@ export const router = createBrowserRouter([
         element: <PrivateRoute><Dashboard /></PrivateRoute>,
         children: [
             {
+                path: '/dashboard/work-sheet',
+                element: <PrivateRoute><WorkSheet /></PrivateRoute>
+            },
+            {
                 path: '/dashboard/payment-history',
                 element: <PrivateRoute><PaymentHistory /></PrivateRoute>
             },
-            {
-                path: '/dashboard/work-sheet',
-                element: <PrivateRoute><WorkSheet /></PrivateRoute>
-            }
         ]
     }
 ]);

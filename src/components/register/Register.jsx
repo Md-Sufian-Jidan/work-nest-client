@@ -89,7 +89,7 @@ const Register = () => {
                 };
                 await axiosPublic.post('/users', userInfo)
                     .then(res => {
-                        console.log(res.data);
+                        // console.log(res.data);
                         Swal.fire({
                             title: "Success",
                             text: "User Login Successfully",
@@ -104,7 +104,7 @@ const Register = () => {
                 navigate('/');
             })
     };
-    
+
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
