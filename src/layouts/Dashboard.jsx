@@ -2,10 +2,12 @@ import { NavLink, Outlet } from "react-router-dom";
 import { LogOut, Menu } from "lucide-react";
 import { useState } from "react";
 import useAuth from "../hooks/useAuth";
+import useRole from "../hooks/useRole";
 
 const Dashboard = () => {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const { role, isLoading } = useRole();
     const { user } = useAuth();
+    const [sidebarOpen, setSidebarOpen] = useState(false);
     const linksByRole = {
         employee: [
             { name: "Work Sheet", to: "/dashboard/work-sheet" },
@@ -20,8 +22,9 @@ const Dashboard = () => {
             { name: "Contact Us", to: "/dashboard/contact-us" },
         ],
     };
-    const navLinks = linksByRole[user?.role] || [];
+    const navLinks = linksByRole[role] || [];
 
+    if (isLoading) return <span>Loading...</span>;
     return (
         <div className="flex min-h-screen bg-gray-50">
             {/* Sidebar */}
@@ -52,8 +55,8 @@ const Dashboard = () => {
                         <Menu />
                     </button>
                     <div className="flex items-center gap-3">
-                        <img src={user.photoURL} alt="Avatar" className="w-9 h-9 rounded-full" />
-                        <span className="text-gray-700 font-medium">{user.displayName}</span>
+                        <img src={user?.photoURL} alt="Avatar" className="w-9 h-9 rounded-full" />
+                        <span className="text-gray-700 font-medium">{user?.displayName}</span>
                         <button className="text-red-500 hover:underline text-sm">
                             <LogOut size={18} />
                         </button>

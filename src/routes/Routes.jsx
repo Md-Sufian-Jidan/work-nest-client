@@ -6,6 +6,7 @@ import Register from "../components/register/Register";
 import WorkSheet from "../pages/dashboard/WorkSheet/WorkSheet";
 import Dashboard from "../layouts/Dashboard";
 import PaymentHistory from "../pages/dashboard/PaymentHistory";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
     {
@@ -28,15 +29,15 @@ export const router = createBrowserRouter([
     },
     {
         path: '/dashboard',
-        element: <Dashboard />,
+        element: <PrivateRoute><Dashboard /></PrivateRoute>,
         children: [
             {
                 path: '/dashboard/payment-history',
-                element: <PaymentHistory />
+                element: <PrivateRoute><PaymentHistory /></PrivateRoute>
             },
             {
                 path: '/dashboard/work-sheet',
-                element: <WorkSheet />
+                element: <PrivateRoute><WorkSheet /></PrivateRoute>
             }
         ]
     }
