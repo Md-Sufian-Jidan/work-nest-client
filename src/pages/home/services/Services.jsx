@@ -32,7 +32,6 @@ const services = [
 ];
 
 const Services = () => {
-    console.log("Services component is rendering...");
 
     return (
         <section className="py-16 bg-gray-50">

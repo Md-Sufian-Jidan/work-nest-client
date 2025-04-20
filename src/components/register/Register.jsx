@@ -3,6 +3,10 @@ import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
+import useAxiosPublic from "../../hooks/useaxiosPublic";
+import { toast } from 'react-toastify';
+import { Eye, EyeOff } from "lucide-react";
+
 
 const VITE_IMAGE_HOSTING_KEY = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${VITE_IMAGE_HOSTING_KEY}`
@@ -12,9 +16,20 @@ const Register = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const [imagePreview, setImagePreview] = useState(null);
     const navigate = useNavigate();
+    const axiosPublic = useAxiosPublic();
+    const [show, setShow] = useState(false);
 
     const onSubmit = async (data) => {
-        const image_file = { image: data.image[0] };
+        if (data.password.length < 6) {
+            return toast.error('Your password should at least 6 character long');
+        }
+        if (!/[A-Z]/.test(data.password)) {
+            return toast.error('Your password should contain a Capital letter');
+        }
+        if (!/[a-z]/.test(data.password)) {
+            return toast.error('Your password should contain a lower letter');
+        }
+        const image_file = { image: data?.photo[0] };
         const res = await axiosPublic.post(image_hosting_api, image_file, {
             headers: {
                 'content-type': 'multipart/form-data'
@@ -22,14 +37,8 @@ const Register = () => {
         });
 
         if (res.data.success) {
-            console.log(image_file);
-            console.log(res.data);
-            console.log(data);
-
             createUser(data.email, data.password)
                 .then(result => {
-                    // const loggedUser = result.user;
-                    // console.log(loggedUser);
                     updateUserProfile(data.name, data.photoURL)
                         .then(() => {
                             const userInfo = {
@@ -98,22 +107,25 @@ const Register = () => {
                     </div>
 
                     {/* Password */}
-                    <div>
+                    <div className="relative">
                         <label className="block mb-1 font-medium">Password</label>
                         <input
-                            type="password"
+                            type={show ? 'text' : 'password'}
                             {...register("password", {
                                 required: "Password is required",
-                                minLength: { value: 6, message: "At least 6 characters" },
                                 pattern: {
-                                    value: /^(?=.*[A-Z])(?=.*[\W_]).*$/,
-                                    message: "Must include 1 capital letter & 1 special character",
+                                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/,
+                                    message:
+                                        "Password must include upper & lowercase letters, a number, a special character, and be at least 6 characters long.",
                                 },
                             })}
                             className="w-full border border-gray-300 rounded-md p-2"
                             placeholder="••••••"
                         />
-                        {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+                        {show ? <Eye onClick={() => setShow(!show)} className="absolute top-9 right-5 cursor" /> : <EyeOff onClick={() => setShow(!show)} className="absolute top-9 right-5 cursor" />}
+                        {errors.password && (
+                            <p className="text-red-500 text-sm">{errors.password.message}</p>
+                        )}
                     </div>
 
                     {/* Role */}
