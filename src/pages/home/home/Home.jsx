@@ -1,15 +1,13 @@
-import { Helmet } from "react-helmet";
 import Banner from "../banner/banner";
 import Services from "../services/Services";
+import Testimonials from "../testimonials/Testimonials";
 
 const Home = () => {
     return (
         <div>
-            <Helmet>
-                <title>WorkNest | Home</title>
-            </Helmet>
             <Banner />
             <Services />
+            <Testimonials />
         </div>
     );
 };

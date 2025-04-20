@@ -1,29 +1,65 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { useNavigate } from "react-router-dom";
+
+const VITE_IMAGE_HOSTING_KEY = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${VITE_IMAGE_HOSTING_KEY}`
 
 const Register = () => {
-    const { createUser } = useAuth();
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        watch,
-    } = useForm();
+    const { createUser, updateUserProfile } = useAuth();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const [imagePreview, setImagePreview] = useState(null);
+    const navigate = useNavigate();
 
-    const onSubmit = (data) => {
-        console.log(data);
-        createUser(data.email, data.password)
-            .then()
-            .catch(err => {
-                Swal.fire({
-                    title: "Error!",
-                    text: err.message,
-                    icon: "error"
-                });
-            })
+    const onSubmit = async (data) => {
+        const image_file = { image: data.image[0] };
+        const res = await axiosPublic.post(image_hosting_api, image_file, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        });
+
+        if (res.data.success) {
+            console.log(image_file);
+            console.log(res.data);
+            console.log(data);
+
+            createUser(data.email, data.password)
+                .then(result => {
+                    // const loggedUser = result.user;
+                    // console.log(loggedUser);
+                    updateUserProfile(data.name, data.photoURL)
+                        .then(() => {
+                            const userInfo = {
+                                name: data.name,
+                                email: data.email,
+                            };
+                            axiosPublic.post('/users', userInfo)
+                                .then(res => {
+                                    if (res.data.insertedId) {
+                                        reset();
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'User created successfully.',
+                                            showConfirmButton: false,
+                                            timer: 1500
+                                        });
+                                        navigate('/');
+                                    }
+                                })
+                        })
+                })
+                .catch(err => {
+                    Swal.fire({
+                        icon: "error",
+                        title: `${err.message}`,
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                })
+        }
     };
 
     const handleImageChange = (e) => {
