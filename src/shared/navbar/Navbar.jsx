@@ -57,25 +57,29 @@ const Navbar = () => {
                 <div className="text-xl font-bold text-blue-600 tracking-tight">WorkNest</div>
 
                 <div className="hidden md:flex items-center gap-2">
-                    <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                        <div className="w-10 rounded-full">
-                            <img
-                                alt="Tailwind CSS Navbar component"
-                                src={user?.photoURL} />
+                    {
+                        user && <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                            <div className="w-10 rounded-full">
+                                <img
+                                    alt="Tailwind CSS Navbar component"
+                                    src={user?.photoURL} />
+                            </div>
                         </div>
-                    </div>
+                    }
                     {/* Desktop Nav */}
                     <ul className="hidden md:flex items-center space-x-2">{navLinks}</ul>
                 </div>
 
                 <div className="md:hidden flex items-center gap-2">
-                    <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                        <div className="w-10 rounded-full">
-                            <img
-                                alt="Tailwind CSS Navbar component"
-                                src={user?.photoURL} />
+                    {
+                        user && <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                            <div className="w-10 rounded-full">
+                                <img
+                                    alt="Tailwind CSS Navbar component"
+                                    src={user?.photoURL} />
+                            </div>
                         </div>
-                    </div>
+                    }
                     {/* Hamburger Button */}
                     <button className="md:hidden text-black" onClick={() => setIsOpen(!isOpen)}>
                         {isOpen ? <X size={24} /> : <Menu size={24} />}

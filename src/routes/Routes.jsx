@@ -3,6 +3,7 @@ import Main from "../layouts/Main";
 import Home from "../pages/home/home/Home";
 import Login from "../components/Login/Login";
 import Register from "../components/register/Register";
+import WorkSheet from "../pages/dashboard/WorkSheet/WorkSheet";
 
 export const router = createBrowserRouter([
     {
@@ -23,4 +24,8 @@ export const router = createBrowserRouter([
             },
         ]
     },
+    {
+        path:'/dashboard/workSheet',
+        element: <WorkSheet />
+    }
 ]);

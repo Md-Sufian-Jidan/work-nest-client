@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import { Outlet } from 'react-router-dom';
 import Navbar from '../shared/Navbar/Navbar';
 import Footer from '../shared/footer/Footer';
@@ -6,9 +5,6 @@ import Footer from '../shared/footer/Footer';
 const Main = () => {
     return (
         <div>
-            <Helmet>
-                <title>WorkNest | Home</title>
-            </Helmet>
             <div className='h-20'>
                 <Navbar />
             </div>
