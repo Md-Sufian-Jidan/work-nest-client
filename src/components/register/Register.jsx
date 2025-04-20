@@ -103,8 +103,8 @@ const Register = () => {
                 console.log(res);
                 navigate('/');
             })
-    }
-
+    };
+    
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {

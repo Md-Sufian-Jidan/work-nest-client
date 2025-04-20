@@ -2,20 +2,22 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
 import { FaGoogle } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet";
 
 const Login = () => {
-    const { signIn } = useAuth();
+    const { signIn, googleSignIn } = useAuth();
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
     const [showPassword, setShowPassword] = useState(false);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from || "/";
 
     const onSubmit = (data) => {
         signIn(data.email, data.password)
@@ -40,10 +42,36 @@ const Login = () => {
             })
     };
 
+    const handleGoogleSignIn = () => {
+        googleSignIn()
+            .then(async (result) => {
+                // console.log(result.user);
+                const userInfo = {
+                    email: result.user?.email,
+                    name: result.user?.displayName
+                };
+                await axiosPublic.post('/users', userInfo)
+                    .then(res => {
+                        console.log(res.data);
+                        Swal.fire({
+                            title: "Success",
+                            text: "User Login Successfully",
+                            icon: "success"
+                        });
+                        navigate(from, { replace: true });
+                    }
+                    )
+            })
+            .catch(res => {
+                console.log(res);
+                navigate('/');
+            })
+    };
+
     return (
         <>
             <Helmet>
-            <title>WorkNest | Login</title>
+                <title>WorkNest | Login</title>
             </Helmet>
             <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
                 <div className="max-w-md w-full bg-white rounded-xl shadow-md p-8">
@@ -98,7 +126,7 @@ const Login = () => {
                     </form>
                     {/* Social Login (You can wire this up to Firebase/Google) */}
                     <div className="flex flex-col gap-2">
-                        <button className="flex items-center justify-center gap-2 border border-gray-300 p-2 rounded-md hover:bg-gray-100 transition">
+                        <button onClick={handleGoogleSignIn} className="flex items-center justify-center gap-2 border border-gray-300 p-2 rounded-md hover:bg-gray-100 transition">
                             <FaGoogle />
                             Sign in with Google
                         </button>
