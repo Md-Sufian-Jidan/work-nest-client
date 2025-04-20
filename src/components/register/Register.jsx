@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import Swal from 'sweetalert2';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../hooks/useaxiosPublic";
 import { toast } from 'react-toastify';
 import { Eye, EyeOff } from "lucide-react";
@@ -13,12 +13,14 @@ const VITE_IMAGE_HOSTING_KEY = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${VITE_IMAGE_HOSTING_KEY}`
 
 const Register = () => {
-    const { createUser, updateUserProfile } = useAuth();
+    const { createUser, updateUserProfile, googleSignIn } = useAuth();
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const [imagePreview, setImagePreview] = useState(null);
     const navigate = useNavigate();
     const axiosPublic = useAxiosPublic();
     const [show, setShow] = useState(false);
+    const location = useLocation();
+    const from = location.state?.from || "/";
 
     const onSubmit = async (data) => {
         if (data.password.length < 6) {
@@ -46,6 +48,10 @@ const Register = () => {
                                 name: data.name,
                                 email: data.email,
                                 role: data.role,
+                                designation: data.designation,
+                                bank_account_no: data.bank,
+                                salary: data.salary,
+                                photo: data.photo
                             };
                             axiosPublic.post('/users', userInfo)
                                 .then(res => {
@@ -72,6 +78,32 @@ const Register = () => {
                 })
         }
     };
+
+    const handleGoogleSignIn = () => {
+        googleSignIn()
+            .then(async (result) => {
+                // console.log(result.user);
+                const userInfo = {
+                    email: result.user?.email,
+                    name: result.user?.displayName
+                };
+                await axiosPublic.post('/users', userInfo)
+                    .then(res => {
+                        console.log(res.data);
+                        Swal.fire({
+                            title: "Success",
+                            text: "User Login Successfully",
+                            icon: "success"
+                        });
+                        navigate(from, { replace: true });
+                    }
+                    )
+            })
+            .catch(res => {
+                console.log(res);
+                navigate('/');
+            })
+    }
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -209,7 +241,7 @@ const Register = () => {
                     {/* Social Login */}
                     <div className="mt-4 text-center space-y-2">
                         <p className="text-sm text-gray-500">or sign up with</p>
-                        <button className="bg-gray-100 p-2 rounded hover:shadow w-2/4">
+                        <button onClick={handleGoogleSignIn} className="bg-gray-100 p-2 rounded hover:shadow w-2/4">
                             <div className="flex justify-center items-center font-bold text-green-500 gap-2">
                                 <FaGoogle /> <span>Google</span>
                             </div>
