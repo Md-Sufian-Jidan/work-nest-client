@@ -1,37 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-
-const services = [
-    {
-        title: "Employee Management",
-        description: "Track employee tasks, roles, and progress in real-time with our centralized dashboard.",
-        icon: "👨‍💼",
-    },
-    {
-        title: "Payroll Automation",
-        description: "Seamlessly calculate and pay employee salaries with bank integration and tracking.",
-        icon: "💰",
-    },
-    {
-        title: "HR Tools",
-        description: "Manage hiring, verification, and role assignment with ease using built-in HR features.",
-        icon: "📋",
-    },
-    {
-        title: "Secure Authentication",
-        description: "Secure email/password and social login support for employees and HR admins.",
-        icon: "🔐",
-    },
-    {
-        title: "Real-Time Reporting",
-        description: "Generate salary reports, performance charts, and monthly work summaries instantly.",
-        icon: "📊",
-    },
-    {
-        title: "Responsive Design",
-        description: "Optimized for desktop, tablet, and mobile so you can manage your team anywhere.",
-        icon: "📱",
-    },
-];
+import useAxiosPublic from "../../../hooks/useaxiosPublic";
+import { useEffect, useState } from "react";
 
 const cardVariant = {
     hidden: { opacity: 0, y: 30 },
@@ -47,6 +17,20 @@ const cardVariant = {
 };
 
 const Services = () => {
+    const axiosPublic = useAxiosPublic();
+    // const [services, setServices] = useState();
+
+    useEffect(() => {
+        const { data = [] } = useQuery({
+            queryKey: ['services'],
+            queryFn: async () => {
+                const res = await axiosPublic.get('/services')
+                // setServices(res?.data);
+                return res.data;
+            }
+        });
+    }, []);
+
     return (
         <section className="py-16 bg-gray-50">
             <div className="max-w-7xl mx-auto px-4 text-center">
@@ -69,7 +53,7 @@ const Services = () => {
                 </motion.p>
 
                 <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                    {services.map((service, i) => (
+                    {data.map((service, i) => (
                         <motion.div
                             key={i}
                             className="bg-white rounded-xl p-6 shadow hover:shadow-lg transition-all border-t-4 border-blue-500"
