@@ -1,105 +1,72 @@
-import { FaBook, FaCartArrowDown, FaCommentDots, FaEnvelope, FaHome, FaList, FaMendeley, FaRegCalendarAlt, FaShoppingCart, FaUsers, FaUtensilSpoon } from "react-icons/fa";
-import { FaMarsAndVenus } from "react-icons/fa6";
 import { NavLink, Outlet } from "react-router-dom";
+import { LogOut, Menu } from "lucide-react";
+import { useState } from "react";
+import useAuth from "../hooks/useAuth";
 
 const Dashboard = () => {
-    // TODO: get isAdmin value from the database
-    const useDesignation = useDesignation();
-    const isAdmin = false
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const { user } = useAuth();
+    const linksByRole = {
+        employee: [
+            { name: "Work Sheet", to: "/dashboard/work-sheet" },
+            { name: "Payment History", to: "/dashboard/payment-history" },
+        ],
+        hr: [
+            { name: "Employee List", to: "/dashboard/employee-list" },
+            { name: "Progress", to: "/dashboard/progress" },
+        ],
+        admin: [
+            { name: "All Employees", to: "/dashboard/all-employee-list" },
+            { name: "Contact Us", to: "/dashboard/contact-us" },
+        ],
+    };
+    const navLinks = linksByRole[user?.role] || [];
+
     return (
-        <div className="flex">
-            {/* dashboard side bar */}
-            <div className="w-64 min-h-screen bg-[#D1A054]">
-                <ul className="menu p-4 space-y-3">
-                    {isAdmin ?
-                        <>
-                            <li>
-                                <NavLink className={({ isActive }) => isActive ? 'bg-purple-700 text-white' : ''} to="/dashboard/adminHome">
-                                    <FaHome size={20} />Admin Home
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink className={({ isActive }) => isActive ? 'bg-purple-700 text-white' : ''} to="/dashboard/cart">
-                                    <FaCartArrowDown size={20} />My Cart
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink className={({ isActive }) => isActive ? 'bg-purple-700 text-white' : ''} to="/dashboard/paymentHistory">
-                                    <FaMarsAndVenus size={20} />Payment History
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink className={({ isActive }) => isActive ? 'bg-purple-700 text-white' : ''} to="/dashboard/addItems">
-                                    <FaUtensilSpoon size={20} />Add Items
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink className={({ isActive }) => isActive ? 'bg-purple-700 text-white' : ''} to="/dashboard/manageItems">
-                                    <FaList size={20} />Manage Items
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink className={({ isActive }) => isActive ? 'bg-purple-700 text-white' : ''} to="/dashboard/bookings">
-                                    <FaBook size={20} />Manage Bookings
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink className={({ isActive }) => isActive ? 'bg-purple-700 text-white' : ''} to="/dashboard/users">
-                                    <FaUsers size={20} />All User
-                                </NavLink>
-                            </li>
-                        </>
-                        : <>
-                            <li>
-                                <NavLink className={({ isActive }) => isActive ? 'bg-purple-700 text-white' : ''} to="/dashboard/userHome">
-                                    <FaHome size={20} />User Home
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink className={({ isActive }) => isActive ? 'bg-purple-700 text-white' : ''} to="/dashboard/reservation">
-                                    <FaRegCalendarAlt size={20} />Reservation
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink className={({ isActive }) => isActive ? 'bg-purple-700 text-white' : ''} to="/dashboard/cart">
-                                    <FaShoppingCart size={20} />My Cart
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink className={({ isActive }) => isActive ? 'bg-purple-700 text-white' : ''} to="/dashboard/review">
-                                    <FaCommentDots size={20} />Reviews
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink className={({ isActive }) => isActive ? 'bg-purple-700 text-white' : ''} to="/dashboard/lists">
-                                    <FaList size={20} />My Bookings
-                                </NavLink>
-                            </li></>}
-                    {/* shared nav links */}
-                    <div className="divider"></div>
-                    <li>
-                        <NavLink to="/">
-                            <FaHome size={20} />Home
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/order/salad">
-                            <FaMendeley size={20} />Menu
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/order/contact">
-                            <FaEnvelope size={20} />Contact
-                        </NavLink>
-                    </li>
+        <div className="flex min-h-screen bg-gray-50">
+            {/* Sidebar */}
+            <aside className={`w-64 bg-white shadow-lg p-4 md:block ${sidebarOpen ? 'block' : 'hidden'} md:relative`}>
+                <div className="text-xl font-bold text-blue-600 mb-8">WorkNest</div>
+                <ul className="space-y-2">
+                    {navLinks.map((link, i) => (
+                        <li key={i}>
+                            <NavLink
+                                to={link.to}
+                                className={({ isActive }) =>
+                                    `block px-3 py-2 rounded transition ${isActive ? "bg-blue-100 text-blue-700" : "text-gray-700 hover:bg-gray-100"
+                                    }`
+                                }
+                            >
+                                {link.name}
+                            </NavLink>
+                        </li>
+                    ))}
                 </ul>
-            </div>
-            {/* dashboard content */}
-            <div className="flex-1 p-8">
-                <Outlet />
+            </aside>
+
+            {/* Main Content */}
+            <div className="flex-1 flex flex-col">
+                {/* Topbar */}
+                <header className="bg-white shadow-md flex justify-between items-center px-6 py-4">
+                    <button onClick={() => setSidebarOpen(!sidebarOpen)} className="md:hidden">
+                        <Menu />
+                    </button>
+                    <div className="flex items-center gap-3">
+                        <img src={user.photoURL} alt="Avatar" className="w-9 h-9 rounded-full" />
+                        <span className="text-gray-700 font-medium">{user.displayName}</span>
+                        <button className="text-red-500 hover:underline text-sm">
+                            <LogOut size={18} />
+                        </button>
+                    </div>
+                </header>
+
+                {/* Content */}
+                <main className="flex-1 p-6 overflow-y-auto">
+                    <Outlet />
+                </main>
             </div>
         </div>
     );
-};
+}
 
 export default Dashboard;
