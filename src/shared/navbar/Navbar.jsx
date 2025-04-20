@@ -16,7 +16,6 @@ const Navbar = () => {
         logOut()
             .then(res => {
                 Swal.fire({
-                    position: 'top-end',
                     icon: 'success',
                     title: 'User Logout successfully.',
                     showConfirmButton: false,
@@ -25,7 +24,6 @@ const Navbar = () => {
             })
             .catch(err => {
                 Swal.fire({
-                    position: 'top-end',
                     icon: 'error',
                     title: err.message,
                     showConfirmButton: false,
@@ -36,41 +34,18 @@ const Navbar = () => {
 
     const navLinks = (
         <>
-            <li>
-                <NavLink to="/" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>
-                    Home
-                </NavLink>
-            </li>
-            <li>
-                <NavLink to="/contact" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>
-                    Contact
-                </NavLink>
-            </li>
+            <li><NavLink to="/" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>Home</NavLink></li>
+            <li><NavLink to="/contact" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>Contact</NavLink></li>
             {user && (
-                <li>
-                    <NavLink to="/dashboard" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>
-                        Dashboard
-                    </NavLink>
-                </li>
+                <li><NavLink to="/dashboard" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>Dashboard</NavLink></li>
             )}
             {user ? (
-                <li>
-                    <button
-                        onClick={handleLogout}
-                        className="text-sm font-medium text-red-500 hover:underline"
-                    >
-                        Logout
-                    </button>
-                </li>
+                <li><button onClick={handleLogout} className="text-sm font-medium text-red-500 hover:underline">Logout</button></li>
             ) : (
-                <li>
-                    <NavLink
-                        to="/register"
-                        className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}
-                    >
-                        Register
-                    </NavLink>
-                </li>
+                <>
+                    <li><NavLink to="/login" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>Login</NavLink></li>
+                    <li><NavLink to="/register" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>Register</NavLink></li>
+                </>
             )}
         </>
     );
@@ -81,13 +56,31 @@ const Navbar = () => {
                 {/* Logo */}
                 <div className="text-xl font-bold text-blue-600 tracking-tight">WorkNest</div>
 
-                {/* Desktop Nav */}
-                <ul className="hidden md:flex items-center space-x-2">{navLinks}</ul>
+                <div className="hidden md:flex items-center gap-2">
+                    <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                        <div className="w-10 rounded-full">
+                            <img
+                                alt="Tailwind CSS Navbar component"
+                                src={user?.photoURL} />
+                        </div>
+                    </div>
+                    {/* Desktop Nav */}
+                    <ul className="hidden md:flex items-center space-x-2">{navLinks}</ul>
+                </div>
 
-                {/* Hamburger Button */}
-                <button className="md:hidden text-black" onClick={() => setIsOpen(!isOpen)}>
-                    {isOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
+                <div className="md:hidden flex items-center gap-2">
+                    <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                        <div className="w-10 rounded-full">
+                            <img
+                                alt="Tailwind CSS Navbar component"
+                                src={user?.photoURL} />
+                        </div>
+                    </div>
+                    {/* Hamburger Button */}
+                    <button className="md:hidden text-black" onClick={() => setIsOpen(!isOpen)}>
+                        {isOpen ? <X size={24} /> : <Menu size={24} />}
+                    </button>
+                </div>
             </div>
 
             {/* Mobile Menu */}

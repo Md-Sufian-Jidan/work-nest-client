@@ -2,11 +2,11 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import Swal from 'sweetalert2';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAxiosPublic from "../../hooks/useaxiosPublic";
 import { toast } from 'react-toastify';
 import { Eye, EyeOff } from "lucide-react";
-
+import { FaGoogle } from "react-icons/fa";
 
 const VITE_IMAGE_HOSTING_KEY = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${VITE_IMAGE_HOSTING_KEY}`
@@ -199,17 +199,17 @@ const Register = () => {
                     >
                         Register
                     </button>
-
-                    {/* Social Login */}
-                    <div className="mt-4 text-center space-y-2">
-                        <p className="text-sm text-gray-500">or sign up with</p>
-                        <div className="flex justify-center gap-4">
-                            <button className="bg-gray-100 p-2 rounded hover:shadow">
-                                <img src="/google-icon.svg" alt="Google" className="w-5 h-5" />
-                            </button>
-                        </div>
-                    </div>
                 </form>
+                {/* Social Login */}
+                <div className="mt-4 text-center space-y-2">
+                    <p className="text-sm text-gray-500">or sign up with</p>
+                    <button className="bg-gray-100 p-2 rounded hover:shadow w-2/4">
+                        <div className="flex justify-center items-center font-bold text-green-500 gap-2">
+                            <FaGoogle /> <span>Google</span>
+                        </div>
+                    </button>
+                    <p><Link className="hover:underline" to={'/login'}>Already have an account? Login</Link></p>
+                </div>
             </div>
         </div>
     );
