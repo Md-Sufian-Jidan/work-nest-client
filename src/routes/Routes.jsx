@@ -9,6 +9,7 @@ import PrivateRoute from "./PrivateRoute";
 import PaymentHistory from "../pages/dashboard/PaymentHistory/PaymentHistory";
 import EmployeeList from "../pages/dashboard/EmployeeList/EmployeeList";
 import AllEmployeeList from "../pages/dashboard/allEmployeeList.jsx/AllEmployeeList";
+import ContactUs from "../pages/contactUs/ContactUs";
 
 export const router = createBrowserRouter([
     {
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
             {
                 path: '/',
                 element: <Home />
+            },
+            {
+                path: '/contact',
+                element: <PrivateRoute><ContactUs /></PrivateRoute>
             },
             {
                 path: '/register',
