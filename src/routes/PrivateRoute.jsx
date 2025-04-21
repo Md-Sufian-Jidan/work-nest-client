@@ -8,9 +8,9 @@ const PrivateRoute = ({ children }) => {
 
     if (!user) return <div>no user</div>
 
+    if (user) return children;
     if (loading) return <div className=" h-16 border-4 border-dashed rounded-full animate-spin dark:border-violet-600 mx-auto max-w-16"></div>
 
-    if (user) return children;
 
     return <Navigate state={location?.pathname} to={'/login'} />
 };

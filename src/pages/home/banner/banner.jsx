@@ -6,6 +6,7 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
 import 'swiper/css';
 import 'swiper/css/navigation';
+import { Link } from "react-router-dom";
 
 const banners = [
   {
@@ -45,9 +46,10 @@ const Banner = () => {
               <div className="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-white text-center px-4">
                 <h2 className="text-3xl md:text-5xl font-bold drop-shadow">{slide.title}</h2>
                 <p className="mt-4 text-lg md:text-xl max-w-2xl drop-shadow">{slide.subtitle}</p>
-                <button className="mt-6 bg-white text-blue-600 font-semibold px-6 py-2 rounded-full shadow-md hover:bg-gray-100 transition">
-                  Get Started
-                </button>
+                <Link to={'/login'}>
+                  <button className="mt-6 bg-white text-blue-600 font-semibold px-6 py-2 rounded-full shadow-md hover:bg-gray-100 transition">
+                    Get Started
+                  </button></Link>
               </div>
             </div>
           </SwiperSlide>
