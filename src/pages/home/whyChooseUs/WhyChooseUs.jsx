@@ -1,34 +1,24 @@
+import { useQuery } from "@tanstack/react-query";
 import { ShieldCheck, Clock, Zap, Users, TrendingUp } from "lucide-react";
-
-const features = [
-    {
-        icon: <ShieldCheck className="w-8 h-8 text-blue-600" />,
-        title: "Secure & Reliable",
-        desc: "Enterprise-grade protection with encrypted data handling and role-based access control.",
-    },
-    {
-        icon: <Clock className="w-8 h-8 text-blue-600" />,
-        title: "Real-Time Updates",
-        desc: "Instant data sync for tasks, salaries, and work history across all roles.",
-    },
-    {
-        icon: <Zap className="w-8 h-8 text-blue-600" />,
-        title: "Lightning Fast",
-        desc: "Optimized for performance with modern React architecture and efficient DB queries.",
-    },
-    {
-        icon: <Users className="w-8 h-8 text-blue-600" />,
-        title: "Team Focused",
-        desc: "Custom dashboards for Employees, HRs, and Admins to streamline collaboration.",
-    },
-    {
-        icon: <TrendingUp className="w-8 h-8 text-blue-600" />,
-        title: "Analytics & Insights",
-        desc: "Track work hours, payment history, and productivity across months in one place.",
-    },
-];
+import useAxiosPublic from "../../../hooks/useaxiosPublic";
 
 const WhyChooseUs = () => {
+    const axiosPublic = useAxiosPublic();
+    const { data: features = [] } = useQuery({
+        queryKey: ['features'],
+        queryFn: async () => {
+            const res = await axiosPublic.get('/features');
+            return res.data;
+        },
+    });
+    const iconMap = {
+        ShieldCheck: <ShieldCheck className="w-8 h-8 text-blue-600" />,
+        Clock: <Clock className="w-8 h-8 text-blue-600" />,
+        Zap: <Zap className="w-8 h-8 text-blue-600" />,
+        Users: <Users className="w-8 h-8 text-blue-600" />,
+        TrendingUp: <TrendingUp className="w-8 h-8 text-blue-600" />
+    };
+
     return (
         <section className="py-20 bg-white">
             <div className="max-w-6xl mx-auto px-4 text-center">
@@ -43,7 +33,7 @@ const WhyChooseUs = () => {
                             key={i}
                             className="p-6 bg-gray-50 rounded-xl shadow-sm hover:shadow-md transition-all border-l-4 border-blue-500"
                         >
-                            <div className="mb-4">{feature.icon}</div>
+                            {iconMap[feature.icon]}
                             <h3 className="text-lg font-semibold text-gray-800 mb-2">{feature.title}</h3>
                             <p className="text-sm text-gray-600">{feature.desc}</p>
                         </div>

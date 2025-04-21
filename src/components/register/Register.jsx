@@ -52,6 +52,7 @@ const Register = () => {
                                 bank_account_no: data.bank,
                                 salary: data.salary,
                                 photo: res.data.data.display_url,
+                                status: 'active',
                             };
                             axiosPublic.post('/users', userInfo)
                                 .then(res => {
@@ -86,7 +87,8 @@ const Register = () => {
                 const userInfo = {
                     email: result.user?.email,
                     name: result.user?.displayName,
-                    role: 'employee'
+                    role: 'employee',
+                    status: 'active',
                 };
                 await axiosPublic.post('/users', userInfo)
                     .then(res => {

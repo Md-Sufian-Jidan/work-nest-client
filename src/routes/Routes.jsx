@@ -7,6 +7,8 @@ import WorkSheet from "../pages/dashboard/WorkSheet/WorkSheet";
 import Dashboard from "../layouts/Dashboard";
 import PrivateRoute from "./PrivateRoute";
 import PaymentHistory from "../pages/dashboard/PaymentHistory/PaymentHistory";
+import EmployeeList from "../pages/dashboard/EmployeeList/EmployeeList";
+import AllEmployeeList from "../pages/dashboard/allEmployeeList.jsx/AllEmployeeList";
 
 export const router = createBrowserRouter([
     {
@@ -38,6 +40,14 @@ export const router = createBrowserRouter([
             {
                 path: '/dashboard/payment-history',
                 element: <PrivateRoute><PaymentHistory /></PrivateRoute>
+            },
+            {
+                path: '/dashboard/employee-list',
+                element: <PrivateRoute><EmployeeList /></PrivateRoute>
+            },
+            {
+                path: '/dashboard/all-employee-list',
+                element: <PrivateRoute><AllEmployeeList /></PrivateRoute>
             },
         ]
     }

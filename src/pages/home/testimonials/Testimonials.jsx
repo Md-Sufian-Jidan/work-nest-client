@@ -3,29 +3,20 @@ import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import { motion } from "framer-motion";
-
-const testimonials = [
-  {
-    name: "Sofia Khan",
-    role: "HR Executive at DigiCorp",
-    feedback: "WorkNest completely transformed how we manage our employees. It’s intuitive, fast, and keeps everything organized.",
-    image: "https://i.pravatar.cc/100?img=32",
-  },
-  {
-    name: "Ryan Thomas",
-    role: "Senior Developer at CodeBase",
-    feedback: "I love the workflow tracking feature. Being able to log hours and see payments clearly is a game-changer.",
-    image: "https://i.pravatar.cc/100?img=12",
-  },
-  {
-    name: "Priya Mehra",
-    role: "Digital Marketer at MarketGen",
-    feedback: "It’s user-friendly and mobile responsive. I can update my work from anywhere, which is amazing!",
-    image: "https://i.pravatar.cc/100?img=44",
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../../../hooks/useaxiosPublic";
 
 const Testimonials = () => {
+  const axiosPublic = useAxiosPublic();
+
+  const { data: testimonials = [] } = useQuery({
+    queryKey: ['testimonials'],
+    queryFn: async () => {
+      const res = await axiosPublic.get('/testimonials')
+      return res.data;
+    },
+  });
+
   return (
     <section className="py-20 bg-white">
       <div className="max-w-4xl mx-auto px-4 text-center">

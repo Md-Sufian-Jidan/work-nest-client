@@ -22,7 +22,7 @@ const Dashboard = () => {
             { name: "Contact Us", to: "/dashboard/contact-us" },
         ],
     };
-    const navLinks = linksByRole[role] || [];
+    const navLinks = linksByRole['admin'] || [];
 
     if (isLoading) return <span>Loading...</span>;
     return (

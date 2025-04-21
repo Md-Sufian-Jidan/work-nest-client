@@ -20,16 +20,14 @@ const Services = () => {
     const axiosPublic = useAxiosPublic();
     // const [services, setServices] = useState();
 
-    useEffect(() => {
-        const { data = [] } = useQuery({
-            queryKey: ['services'],
-            queryFn: async () => {
-                const res = await axiosPublic.get('/services')
-                // setServices(res?.data);
-                return res.data;
-            }
-        });
-    }, []);
+    const { data: services = [] } = useQuery({
+        queryKey: ['services'],
+        queryFn: async () => {
+            const res = await axiosPublic.get('/services')
+            // setServices(res?.data);
+            return res.data;
+        }
+    });
 
     return (
         <section className="py-16 bg-gray-50">
@@ -53,7 +51,7 @@ const Services = () => {
                 </motion.p>
 
                 <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                    {data.map((service, i) => (
+                    {services.map((service, i) => (
                         <motion.div
                             key={i}
                             className="bg-white rounded-xl p-6 shadow hover:shadow-lg transition-all border-t-4 border-blue-500"
