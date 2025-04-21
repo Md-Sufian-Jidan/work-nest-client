@@ -22,7 +22,7 @@ const Dashboard = () => {
             { name: "Contact Us", to: "/dashboard/contact-us" },
         ],
     };
-    const navLinks = linksByRole['admin'] || [];
+    const navLinks = linksByRole['hr'] || [];
 
     if (isLoading) return <span>Loading...</span>;
     return (
@@ -44,6 +44,21 @@ const Dashboard = () => {
                             </NavLink>
                         </li>
                     ))}
+                    <div className="divider"></div>
+                    <li><NavLink
+                        to={'/'}
+                        className={({ isActive }) =>
+                            `block px-3 py-2 rounded transition ${isActive ? "bg-blue-100 text-blue-700" : "text-gray-700 hover:bg-gray-100"
+                            }`
+                        }>Home</NavLink>
+                    </li>
+                    <li><NavLink
+                        to={'/contact'}
+                        className={({ isActive }) =>
+                            `block px-3 py-2 rounded transition ${isActive ? "bg-blue-100 text-blue-700" : "text-gray-700 hover:bg-gray-100"
+                            }`
+                        }>Contact
+                    </NavLink></li>
                 </ul>
             </aside>
 

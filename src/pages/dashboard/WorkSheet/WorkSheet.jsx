@@ -4,29 +4,43 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from 'sweetalert2';
+import useAuth from "../../../hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
 
 const taskOptions = ["Sales", "Support", "Content", "Paper-work", "Design", "Marketing"];
 
 const WorkSheet = () => {
     const [date, setDate] = useState(new Date());
-    const [workLogs, setWorkLogs] = useState([]);
+    // const [workLogs, setWorkLogs] = useState([]);
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const axiosSecure = useAxiosSecure();
+    const { user } = useAuth();
+
+    const { data: works = [], refetch } = useQuery({
+        queryKey: ['workSheet'],
+        enabled: !!user?.email,
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/work-sheet/${user?.email}`);
+            return res.data;
+        }
+    });
 
     const onSubmit = async (data) => {
         const entry = {
-            ...data,
+            task: data.task,
+            hoursWorked: data.hoursWorked,
             date: date.toISOString().split("T")[0],
+            email: user?.email,
         };
         const res = await axiosSecure.post("/work-sheet", entry);
         if (res.data.insertedId) {
             Swal.fire({
                 icon: 'success',
-                title: 'Your work successfully.',
+                title: 'Your work has been recorded successfully.',
                 showConfirmButton: false,
                 timer: 1500
             });
-            setWorkLogs([entry, ...workLogs]);
+            refetch();
             reset();
             setDate(new Date());
         }
@@ -84,10 +98,10 @@ const WorkSheet = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {workLogs.length === 0 ? (
+                        {works.length === 0 ? (
                             <tr><td colSpan="3" className="p-4 text-center text-gray-500">No logs yet.</td></tr>
                         ) : (
-                            workLogs.map((log, i) => (
+                            works.map((log, i) => (
                                 <tr key={i}>
                                     <td className="p-2 border">{log.task}</td>
                                     <td className="p-2 border">{log.hoursWorked}</td>

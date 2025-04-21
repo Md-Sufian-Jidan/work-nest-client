@@ -10,6 +10,7 @@ import PaymentHistory from "../pages/dashboard/PaymentHistory/PaymentHistory";
 import EmployeeList from "../pages/dashboard/EmployeeList/EmployeeList";
 import AllEmployeeList from "../pages/dashboard/allEmployeeList.jsx/AllEmployeeList";
 import ContactUs from "../pages/contactUs/ContactUs";
+import AdminContact from "../pages/dashboard/adminContact/AdminContact";
 
 export const router = createBrowserRouter([
     {
@@ -53,6 +54,10 @@ export const router = createBrowserRouter([
             {
                 path: '/dashboard/all-employee-list',
                 element: <PrivateRoute><AllEmployeeList /></PrivateRoute>
+            },
+            {
+                path: '/dashboard/contact-us',
+                element: <PrivateRoute><AdminContact /></PrivateRoute>
             },
         ]
     }

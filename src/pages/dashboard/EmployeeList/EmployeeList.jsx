@@ -1,25 +1,29 @@
 import { useReactTable, getCoreRowModel, flexRender, createColumnHelper, } from "@tanstack/react-table";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { Check, X, Eye, DollarSign } from "lucide-react";
+import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
+import EmployeeDetailsModal from "../../../components/employeeDetailsModal/EmployeeDetailsModal";
 
 const columnHelper = createColumnHelper();
 
 const EmployeeList = () => {
-    const navigate = useNavigate();
+    const { user } = useAuth();
     const queryClient = useQueryClient();
+    const axiosSecure = useAxiosSecure();
 
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
+    const [viewModalOpen, setViewModalOpen] = useState(false);
 
     // ✅ 1. Fetch employees
-    const { data: employees = [] } = useQuery({
+    const { data: employees = [], refetch } = useQuery({
         queryKey: ["employees"],
+        enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axios.get("/employees-list");
-            console.log(res.data);
+            const res = await axiosSecure.get("/employees-list");
             return res.data;
         },
     });
@@ -27,8 +31,8 @@ const EmployeeList = () => {
     // ✅ 2. Toggle verification
     const toggleVerifyMutation = useMutation({
         mutationFn: async (employee) => {
-            const updated = { isVerified: !employee.isVerified };
-            await axios.patch(`/api/employees/${employee._id}/verify`, updated);
+            const updated = { verified: !employee?.verified };
+            await axiosSecure.patch(`/verify-employee/${employee._id}`, updated);
         },
         onSuccess: () => queryClient.invalidateQueries(["employees"]),
     });
@@ -45,7 +49,28 @@ const EmployeeList = () => {
     });
 
     const handleVerify = (emp) => {
-        toggleVerifyMutation.mutate(emp);
+        Swal.fire({
+            title: "Are you sure?",
+            text: `You want to Verify the ${emp?.name}!`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, make it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                toggleVerifyMutation.mutate(emp, {
+                    onSuccess: () => {
+                        Swal.fire({
+                            title: "Verified!",
+                            text: `${emp?.name} has been Verified`,
+                            icon: "success"
+                        });
+                    }
+                });
+                refetch();
+            }
+        });
     };
 
     const openPayModal = (emp) => {
@@ -69,6 +94,16 @@ const EmployeeList = () => {
         payMutation.mutate(paymentInfo);
     };
 
+    const handleView = (user) => {
+        setSelectedEmployee(user);
+        setViewModalOpen(true);
+    };
+
+    const handleViewEmployee = (emp) => {
+        console.log(emp);
+        handleView(emp);
+    };
+
     // ✅ 4. Columns definition
     const columns = [
         columnHelper.accessor("name", {
@@ -79,21 +114,21 @@ const EmployeeList = () => {
             header: "Email",
             cell: info => info.getValue(),
         }),
-        columnHelper.accessor("isVerified", {
+        columnHelper.accessor("verified", {
             header: "Verified",
             cell: ({ row }) => {
                 const emp = row.original;
                 return (
                     <button
                         onClick={() => handleVerify(emp)}
-                        className={`text-xl ${emp.isVerified ? "text-green-500" : "text-red-500"}`}
+                        className={`text-xl ${emp.verified ? "text-green-500" : "text-red-500"}`}
                     >
-                        {emp.isVerified ? <Check /> : <X />}
+                        {emp.verified ? <Check /> : <X />}
                     </button>
                 );
             },
         }),
-        columnHelper.accessor("bank", {
+        columnHelper.accessor("bank_account_no", {
             header: "Bank Account",
             cell: info => info.getValue() || "N/A",
         }),
@@ -109,8 +144,8 @@ const EmployeeList = () => {
                 return (
                     <button
                         onClick={() => openPayModal(emp)}
-                        disabled={!emp.isVerified}
-                        className={`px-3 py-1 rounded text-white flex items-center gap-1 ${emp.isVerified ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-300 cursor-not-allowed"
+                        disabled={!emp.verified}
+                        className={`px-3 py-1 rounded text-white flex items-center gap-1 ${emp.verified ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-300 cursor-not-allowed"
                             }`}
                     >
                         <DollarSign size={16} /> Pay
@@ -125,7 +160,7 @@ const EmployeeList = () => {
                 const emp = row.original;
                 return (
                     <button
-                        onClick={() => navigate(`/dashboard/details/${emp._id}`)}
+                        onClick={() => handleViewEmployee(emp)}
                         className="text-blue-600 hover:underline flex items-center gap-1"
                     >
                         <Eye size={16} /> View
@@ -159,15 +194,24 @@ const EmployeeList = () => {
                         ))}
                     </thead>
                     <tbody>
-                        {table.getRowModel().rows.map(row => (
-                            <tr key={row.id} className="border-t">
-                                {row.getVisibleCells().map(cell => (
-                                    <td key={cell.id} className="p-3 border-b">
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                    </td>
-                                ))}
+                        {table.getRowModel().rows.length > 0 ? (
+                            table.getRowModel().rows.map(row => (
+                                <tr key={row.id} className="border-t">
+                                    {row.getVisibleCells().map(cell => (
+                                        <td key={cell.id} className="p-3 border-b">
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan={table.getAllColumns().length} className="text-center py-4 text-gray-500">
+                                    No employee data available.
+                                </td>
                             </tr>
-                        ))}
+                        )}
+
                     </tbody>
                 </table>
             </div>
@@ -221,6 +265,15 @@ const EmployeeList = () => {
                     </div>
                 </div>
             )}
+
+            {/* view details modal */}
+            {
+                viewModalOpen && selectedEmployee && <EmployeeDetailsModal
+                    isOpen={viewModalOpen}
+                    onClose={() => setViewModalOpen(false)}
+                    employee={selectedEmployee}
+                />
+            }
         </div>
     );
 }

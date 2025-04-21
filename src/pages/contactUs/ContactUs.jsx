@@ -13,7 +13,12 @@ const ContactUs = () => {
     const message = {
       email: data.email,
       message: data.message,
-      time: new Date(),
+      date: new Date().toLocaleDateString("en-GB"),
+      time: new Date().toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      })
     };
     const res = await axiosSecure.post("/contact-us", message);
     if (res.data.insertedId) {
