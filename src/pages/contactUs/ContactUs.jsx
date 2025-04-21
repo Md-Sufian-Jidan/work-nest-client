@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-import { motion } from "framer-motion";
+import { motion, time } from "framer-motion";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
 
@@ -10,7 +10,12 @@ const ContactUs = () => {
   const axiosSecure = useAxiosSecure();
 
   const onSubmit = async (data) => {
-    const res = await axiosSecure.post("/contact-us", data);
+    const message = {
+      email: data.email,
+      message: data.message,
+      time: new Date(),
+    };
+    const res = await axiosSecure.post("/contact-us", message);
     if (res.data.insertedId) {
       Swal.fire({
         title: "Message Sent!",
