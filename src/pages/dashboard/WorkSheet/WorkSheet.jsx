@@ -30,6 +30,7 @@ const WorkSheet = () => {
             task: data.task,
             hoursWorked: data.hoursWorked,
             date: date.toISOString().split("T")[0],
+            name: user?.displayName,
             email: user?.email,
         };
         const res = await axiosSecure.post("/work-sheet", entry);
@@ -92,6 +93,7 @@ const WorkSheet = () => {
                 <table className="min-w-full border">
                     <thead className="bg-blue-100 text-left">
                         <tr>
+                            <th className="p-2 border">Name</th>
                             <th className="p-2 border">Task</th>
                             <th className="p-2 border">Hours</th>
                             <th className="p-2 border">Date</th>
@@ -103,6 +105,7 @@ const WorkSheet = () => {
                         ) : (
                             works.map((log, i) => (
                                 <tr key={i}>
+                                    <td className="p-2 border">{log.name}</td>
                                     <td className="p-2 border">{log.task}</td>
                                     <td className="p-2 border">{log.hoursWorked}</td>
                                     <td className="p-2 border">{log.date}</td>

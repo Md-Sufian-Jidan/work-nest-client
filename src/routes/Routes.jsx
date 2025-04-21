@@ -11,6 +11,7 @@ import EmployeeList from "../pages/dashboard/EmployeeList/EmployeeList";
 import AllEmployeeList from "../pages/dashboard/allEmployeeList.jsx/AllEmployeeList";
 import ContactUs from "../pages/contactUs/ContactUs";
 import AdminContact from "../pages/dashboard/adminContact/AdminContact";
+import Progress from "../pages/dashboard/progress/Progress";
 
 export const router = createBrowserRouter([
     {
@@ -50,6 +51,10 @@ export const router = createBrowserRouter([
             {
                 path: '/dashboard/employee-list',
                 element: <PrivateRoute><EmployeeList /></PrivateRoute>
+            },
+            {
+                path: '/dashboard/progress',
+                element: <PrivateRoute><Progress /></PrivateRoute>
             },
             {
                 path: '/dashboard/all-employee-list',
