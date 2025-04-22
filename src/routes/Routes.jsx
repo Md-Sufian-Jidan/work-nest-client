@@ -12,6 +12,7 @@ import AllEmployeeList from "../pages/dashboard/allEmployeeList.jsx/AllEmployeeL
 import ContactUs from "../pages/contactUs/ContactUs";
 import AdminContact from "../pages/dashboard/adminContact/AdminContact";
 import Progress from "../pages/dashboard/progress/Progress";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
     {
@@ -58,11 +59,11 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/dashboard/all-employee-list',
-                element: <PrivateRoute><AllEmployeeList /></PrivateRoute>
+                element: <AdminRoute><AllEmployeeList /></AdminRoute>
             },
             {
                 path: '/dashboard/contact-us',
-                element: <PrivateRoute><AdminContact /></PrivateRoute>
+                element: <AdminRoute><AdminContact /></AdminRoute>
             },
         ]
     }
