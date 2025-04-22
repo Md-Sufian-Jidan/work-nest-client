@@ -13,6 +13,7 @@ import ContactUs from "../pages/contactUs/ContactUs";
 import AdminContact from "../pages/dashboard/adminContact/AdminContact";
 import Progress from "../pages/dashboard/progress/Progress";
 import AdminRoute from "./AdminRoute";
+import Payment from "../pages/dashboard/PaymentHistory/Payment";
 
 export const router = createBrowserRouter([
     {
@@ -52,6 +53,10 @@ export const router = createBrowserRouter([
             {
                 path: '/dashboard/employee-list',
                 element: <PrivateRoute><EmployeeList /></PrivateRoute>
+            },
+            {
+                path: '/dashboard/payment/:email',
+                element: <PrivateRoute><Payment /></PrivateRoute>,
             },
             {
                 path: '/dashboard/progress',

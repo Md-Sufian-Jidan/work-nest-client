@@ -6,6 +6,7 @@ import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import EmployeeDetailsModal from "../../../components/employeeDetailsModal/EmployeeDetailsModal";
+import { Link } from "react-router-dom";
 
 const columnHelper = createColumnHelper();
 
@@ -15,7 +16,6 @@ const EmployeeList = () => {
     const axiosSecure = useAxiosSecure();
 
     const [selectedEmployee, setSelectedEmployee] = useState(null);
-    const [modalOpen, setModalOpen] = useState(false);
     const [viewModalOpen, setViewModalOpen] = useState(false);
 
     // ✅ 1. Fetch employees
@@ -38,15 +38,15 @@ const EmployeeList = () => {
     });
 
     // ✅ 3. Pay salary
-    const payMutation = useMutation({
-        mutationFn: async (paymentInfo) => {
-            await axios.post("/api/payments", paymentInfo);
-        },
-        onSuccess: () => {
-            setModalOpen(false);
-            queryClient.invalidateQueries(["employees"]);
-        },
-    });
+    // const payMutation = useMutation({
+    //     mutationFn: async (paymentInfo) => {
+    //         await axios.post("/api/payments", paymentInfo);
+    //     },
+    //     onSuccess: () => {
+    //         setModalOpen(false);
+    //         queryClient.invalidateQueries(["employees"]);
+    //     },
+    // });
 
     const handleVerify = (emp) => {
         Swal.fire({
@@ -73,26 +73,25 @@ const EmployeeList = () => {
         });
     };
 
-    const openPayModal = (emp) => {
-        setSelectedEmployee(emp);
-        setModalOpen(true);
-    };
+    // const openPayModal = (emp) => {
+    //     setSelectedEmployee(emp);
+    //     setModalOpen(true);
+    // };
 
-    const handlePay = (e) => {
-        e.preventDefault();
-        const form = e.target;
-        const month = form.month.value;
-        const year = form.year.value;
+    // const handlePay = (e) => {
+    //     e.preventDefault();
+    //     const form = e.target;
+    //     const month = form.month.value;
+    //     const year = form.year.value;
 
-        const paymentInfo = {
-            employeeId: selectedEmployee._id,
-            amount: selectedEmployee.salary,
-            month,
-            year,
-        };
-
-        payMutation.mutate(paymentInfo);
-    };
+    //     const paymentInfo = {
+    //         employeeId: selectedEmployee._id,
+    //         amount: selectedEmployee.salary,
+    //         month,
+    //         year,
+    //     };
+    //     payMutation.mutate(paymentInfo);
+    // };
 
     const handleView = (user) => {
         setSelectedEmployee(user);
@@ -100,7 +99,6 @@ const EmployeeList = () => {
     };
 
     const handleViewEmployee = (emp) => {
-        console.log(emp);
         handleView(emp);
     };
 
@@ -142,14 +140,15 @@ const EmployeeList = () => {
             cell: ({ row }) => {
                 const emp = row.original;
                 return (
-                    <button
-                        onClick={() => openPayModal(emp)}
+                    <Link
+                        to={`/dashboard/payment/${emp.email}`}
+                        // onClick={() => openPayModal(emp)}
                         disabled={!emp.verified}
                         className={`px-3 py-1 rounded text-white flex items-center gap-1 ${emp.verified ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-300 cursor-not-allowed"
                             }`}
                     >
                         <DollarSign size={16} /> Pay
-                    </button>
+                    </Link>
                 );
             },
         }),
@@ -217,7 +216,7 @@ const EmployeeList = () => {
             </div>
 
             {/* Pay Modal */}
-            {modalOpen && selectedEmployee && (
+            {/* {modalOpen && selectedEmployee && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white p-6 rounded-lg w-full max-w-md shadow-lg">
                         <h3 className="text-lg font-bold text-blue-600 mb-4">
@@ -264,7 +263,7 @@ const EmployeeList = () => {
                         </form>
                     </div>
                 </div>
-            )}
+            )} */}
 
             {/* view details modal */}
             {
