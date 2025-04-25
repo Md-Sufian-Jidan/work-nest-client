@@ -18,6 +18,7 @@ const CheckOut = ({ singleEmployee }) => {
 
     useEffect(() => {
         const pay = {
+            employeeEmail: singleEmployee?.email,
             employeeId: singleEmployee?._id,
             amount: singleEmployee?.salary,
             month: new Date().toLocaleString("default", { month: "long" }),
@@ -83,6 +84,7 @@ const CheckOut = ({ singleEmployee }) => {
         }
         else {
             console.log('payment intent ', paymentIntent);
+            toast.warn('Your Payment is Processing');
             if (paymentIntent.status === 'succeeded') {
                 setTransactionId(paymentIntent?.id);
                 const paymentDetails = {

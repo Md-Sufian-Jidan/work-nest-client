@@ -1,20 +1,24 @@
-import { useState, useEffect } from "react";
-
-const dummyPayments = [
-    { month: "January 2024", amount: "$2,500", transactionId: "TX123456" },
-    { month: "February 2024", amount: "$2,500", transactionId: "TX123789" },
-    { month: "March 2024", amount: "$2,500", transactionId: "TX124012" },
-    { month: "April 2024", amount: "$2,700", transactionId: "TX124310" },
-    { month: "May 2024", amount: "$2,700", transactionId: "TX124501" },
-    { month: "June 2024", amount: "$2,800", transactionId: "TX124999" },
-];
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAuth from "../../../hooks/useAuth";
 
 const PaymentHistory = () => {
+    const axiosSecure = useAxiosSecure();
+    const { user } = useAuth();
+    const { data: payments = [] } = useQuery({
+        queryKey: ['payments'],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/payment-history/${user?.email}`);
+            return res.data;
+        }
+    });
+    
     const [page, setPage] = useState(1);
     const rowsPerPage = 5;
 
-    const paginated = dummyPayments.slice((page - 1) * rowsPerPage, page * rowsPerPage);
-    const totalPages = Math.ceil(dummyPayments.length / rowsPerPage);
+    const paginated = payments.slice((page - 1) * rowsPerPage, page * rowsPerPage);
+    const totalPages = Math.ceil(payments.length / rowsPerPage);
 
     return (
         <div className="p-6">
@@ -33,7 +37,7 @@ const PaymentHistory = () => {
                         {paginated.map((pay, i) => (
                             <tr key={i} className="border-t">
                                 <td className="p-2 border">{pay.month}</td>
-                                <td className="p-2 border">{pay.amount}</td>
+                                <td className="p-2 border">{pay.employeeSalary}</td>
                                 <td className="p-2 border">{pay.transactionId}</td>
                             </tr>
                         ))}
