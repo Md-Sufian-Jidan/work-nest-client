@@ -18,7 +18,7 @@ const EmployeeList = () => {
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [viewModalOpen, setViewModalOpen] = useState(false);
 
-    // ✅ 1. Fetch employees
+    // 1. Fetch employees
     const { data: employees = [], refetch } = useQuery({
         queryKey: ["employees"],
         enabled: !!user?.email,
@@ -28,7 +28,7 @@ const EmployeeList = () => {
         },
     });
 
-    // ✅ 2. Toggle verification
+    // 2. Toggle verification
     const toggleVerifyMutation = useMutation({
         mutationFn: async (employee) => {
             const updated = { verified: !employee?.verified };
@@ -36,17 +36,6 @@ const EmployeeList = () => {
         },
         onSuccess: () => queryClient.invalidateQueries(["employees"]),
     });
-
-    // ✅ 3. Pay salary
-    // const payMutation = useMutation({
-    //     mutationFn: async (paymentInfo) => {
-    //         await axios.post("/api/payments", paymentInfo);
-    //     },
-    //     onSuccess: () => {
-    //         setModalOpen(false);
-    //         queryClient.invalidateQueries(["employees"]);
-    //     },
-    // });
 
     const handleVerify = (emp) => {
         Swal.fire({
@@ -73,26 +62,6 @@ const EmployeeList = () => {
         });
     };
 
-    // const openPayModal = (emp) => {
-    //     setSelectedEmployee(emp);
-    //     setModalOpen(true);
-    // };
-
-    // const handlePay = (e) => {
-    //     e.preventDefault();
-    //     const form = e.target;
-    //     const month = form.month.value;
-    //     const year = form.year.value;
-
-    //     const paymentInfo = {
-    //         employeeId: selectedEmployee._id,
-    //         amount: selectedEmployee.salary,
-    //         month,
-    //         year,
-    //     };
-    //     payMutation.mutate(paymentInfo);
-    // };
-
     const handleView = (user) => {
         setSelectedEmployee(user);
         setViewModalOpen(true);
@@ -102,7 +71,7 @@ const EmployeeList = () => {
         handleView(emp);
     };
 
-    // ✅ 4. Columns definition
+    // 4. Columns definition
     const columns = [
         columnHelper.accessor("name", {
             header: "Name",

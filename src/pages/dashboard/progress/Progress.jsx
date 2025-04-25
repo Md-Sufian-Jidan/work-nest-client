@@ -6,35 +6,21 @@ import useAuth from "../../../hooks/useAuth";
 const Progress = () => {
     const { user } = useAuth();
     const [selectedEmployee, setSelectedEmployee] = useState("");
-    // const [selectedEmail, setSelectedEmail] = useState();
-
-    const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1); // default = current month
-    const [filteredRecords, setFilteredRecords] = useState([]);
+    const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
     const axiosSecure = useAxiosSecure();
 
-    const { data: workRecords = [], isLoading, refetch } = useQuery({
-        queryKey: ["work-records"],
+    const { data: workRecords = [], isLoading, } = useQuery({
+        queryKey: ["work-records", selectedEmployee],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axiosSecure.get(`/all-work-records?employee=${selectedEmployee}`); // from all employees
+            const res = await axiosSecure.get(`/all-work-records?employee=${selectedEmployee}`);
             return res.data;
         },
     });
 
     const employees = [...new Set(workRecords.map((item) => item.name))];
-
-    useEffect(() => {
-        const filtered = workRecords.filter((item) => {
-            const itemMonth = new Date(item.date).getMonth() + 1;
-            const byMonth = itemMonth === Number(selectedMonth);
-            const byEmployee = selectedEmployee ? item.employeeName === selectedEmployee : true;
-            return byMonth && byEmployee;
-        });
-
-        setFilteredRecords(filtered);
-    }, [selectedMonth, selectedEmployee, workRecords]);
-
-    const totalHours = filteredRecords.reduce((sum, item) => sum + Number(item.hoursWorked), 0);
+    const filterWorkHour = workRecords.filter(item => item?.hoursWorked);
+    const totalHours = filterWorkHour.reduce((sum, item) => sum + Number(item.hoursWorked), 0);
 
     return (
         <div className="p-6 max-w-6xl mx-auto">
@@ -45,11 +31,7 @@ const Progress = () => {
                 <select
                     className="border p-2 rounded"
                     value={selectedEmployee}
-                    onChange={(e) => {
-                        setSelectedEmployee(e.target.value);
-                        console.log(e.target.value);
-                        refetch();
-                    }}
+                    onChange={(e) => setSelectedEmployee(e.target.value)}
                 >
                     <option value="">All Employees</option>
                     {employees.map((emp, i) => (
@@ -81,7 +63,7 @@ const Progress = () => {
             <div className="overflow-x-auto border rounded-lg shadow-sm">
                 {isLoading ? (
                     <p className="text-center py-4">Loading...</p>
-                ) : filteredRecords.length === 0 ? (
+                ) : workRecords.length === 0 ? (
                     <p className="text-center py-4 text-gray-500">No records found for selected filters.</p>
                 ) : (
                     <table className="min-w-full text-left">
@@ -94,9 +76,9 @@ const Progress = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredRecords.map((item, index) => (
+                            {workRecords.map((item, index) => (
                                 <tr key={index} className="border-t">
-                                    <td className="p-3">{item.name}</td>
+                                    <td className="p-3">{item.name || item?.email}</td>
                                     <td className="p-3">{item.task}</td>
                                     <td className="p-3">{item.hoursWorked}</td>
                                     <td className="p-3">{new Date(item.date).toLocaleDateString()}</td>
@@ -106,7 +88,7 @@ const Progress = () => {
                     </table>
                 )}
             </div>
-        </div>
+        </div >
     );
 };
 

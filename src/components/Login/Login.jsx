@@ -22,7 +22,6 @@ const Login = () => {
     const onSubmit = (data) => {
         signIn(data.email, data.password)
             .then(res => {
-                console.log(res.data);
                 Swal.fire({
                     icon: 'success',
                     title: 'User created successfully.',
@@ -38,7 +37,6 @@ const Login = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
-                navigate('/');
             })
     };
 
@@ -65,7 +63,6 @@ const Login = () => {
             })
             .catch(res => {
                 console.log(res);
-                navigate('/');
             })
     };
 

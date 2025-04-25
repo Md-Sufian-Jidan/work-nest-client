@@ -4,6 +4,7 @@ import Swal from 'sweetalert2'
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const CheckOut = ({ singleEmployee }) => {
     const stripe = useStripe();
@@ -13,13 +14,22 @@ const CheckOut = ({ singleEmployee }) => {
     const [transactionId, setTransactionId] = useState("");
     const [clientSecret, setClientSecret] = useState("");
     const { user } = useAuth();
-    const salary = parseInt(singleEmployee?.salary);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const salary = singleEmployee?.salary;
-        axiosSecure.post('/create-payment-intent', { salary })
+        const pay = {
+            employeeId: singleEmployee?._id,
+            amount: singleEmployee?.salary,
+            month: new Date().toLocaleString("default", { month: "long" }),
+            year: new Date().getFullYear(),
+        };
+        axiosSecure.post('/create-payment-intent', pay)
             .then(res => {
                 setClientSecret(res?.data?.client_secret);
+                if (res.data?.error) {
+                    console.log(res.data?.error);
+                    setError(res.data?.error);
+                }
             })
             .catch(err => {
                 console.log(err);
@@ -50,13 +60,20 @@ const CheckOut = ({ singleEmployee }) => {
             console.log('success', paymentMethod);
             setError('');
         };
-
+        const address = {
+            line1: "510 Townsend St",
+            postal_code: 98140,
+            city: "San Francisco",
+            state: 'CA',
+            country: 'US',
+        }
         const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
             payment_method: {
                 card: card,
                 billing_details: {
                     email: user?.email,
                     name: user?.displayName,
+                    address: address
                 }
             }
         });
@@ -67,29 +84,37 @@ const CheckOut = ({ singleEmployee }) => {
         else {
             console.log('payment intent ', paymentIntent);
             if (paymentIntent.status === 'succeeded') {
-                console.log(paymentIntent.id);
+                setTransactionId(paymentIntent?.id);
                 const paymentDetails = {
                     hrEmail: user?.email,
                     hrName: user?.displayName,
+                    employeeId: singleEmployee?._id,
                     employeeName: singleEmployee?.name,
                     employeeEmail: singleEmployee?.email,
-                    employeeSalary: salary,
-                    monthYear: new Date().toLocaleString('default', {
+                    employeeSalary: singleEmployee?.salary,
+                    month: new Date().toLocaleString('default', {
                         month: 'long',
+                    }),
+                    year: new Date().toLocaleString('default', {
                         year: 'numeric'
                     }),
-                    transactionId: transactionId,
+                    transactionId: paymentIntent?.id,
+                    paidAt: new Date(),
                 };
 
-                const res = await axiosSecure.post('/employee-payment', paymentDetails);
-                if (res?.data?.result?.insertedId) {
-                    Swal.fire({
-                        icon: "success",
-                        title: `${singleEmployee?.name} salary has been payed.`,
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                }
+                await axiosSecure.post('/employee-payment', paymentDetails)
+                    .then(res => {
+                        Swal.fire({
+                            icon: "success",
+                            title: `${singleEmployee?.name} salary has been payed.`,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        navigate('/dashboard/employee-list')
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
             }
         }
     };
@@ -121,6 +146,7 @@ const CheckOut = ({ singleEmployee }) => {
                     Pay
                 </button>
 
+                {error && <p className="text-red-500">{error}</p>}
                 <p className="text-red-500">{error?.message}</p>
                 {transactionId && <p className="text-green-500">Your transaction id : {transactionId}</p>}
 

@@ -29,6 +29,7 @@ This is the **client-side** of the application, built with React 19 and a powerf
 - 🧑‍💼 Role-based Dashboards
 - 📝 Employee Work Sheets
 - 📈 HR Progress Tracker
+- 💸 Stripe-powered payments (USD)
 - 💸 Salary Payments with History
 - 📨 Contact Us Form (Public)
 - 🧾 Admin Employee Management
@@ -63,6 +64,7 @@ This is the **client-side** of the application, built with React 19 and a powerf
 | **Swiper**               | Responsive sliders                   |
 | **React Toastify**       | Toast notifications                  |
 | **React Datepicker**     | Date inputs                          |
+| **@stripe/react-stripe-js**   | Stripe payments                 |
 
 ---
 
