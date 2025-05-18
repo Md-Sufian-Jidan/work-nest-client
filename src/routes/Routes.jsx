@@ -14,6 +14,7 @@ import AdminContact from "../pages/dashboard/adminContact/AdminContact";
 import Progress from "../pages/dashboard/progress/Progress";
 import AdminRoute from "./AdminRoute";
 import Payment from "../pages/dashboard/PaymentHistory/Payment";
+import Features from "../pages/Features/Features";
 
 export const router = createBrowserRouter([
     {
@@ -25,8 +26,12 @@ export const router = createBrowserRouter([
                 element: <Home />
             },
             {
+                path: '/features',
+                element: <Features />
+            },
+            {
                 path: '/contact',
-                element: <PrivateRoute><ContactUs /></PrivateRoute>
+                element: <ContactUs />
             },
             {
                 path: '/register',

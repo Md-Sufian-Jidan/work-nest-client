@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import useAuth from "../../hooks/useAuth";
@@ -66,7 +66,7 @@ const Navbar = () => {
     return (
         <nav className="w-full sticky top-0 z-50 bg-white shadow-md">
             <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-                <div className="text-2xl font-heading font-bold text-primary tracking-tight">WorkNest</div>
+                <Link to={'/'} className="text-2xl font-heading font-bold text-primary tracking-tight">WorkNest</Link>
 
                 <div className="hidden md:flex items-center gap-4">
                     <ul className="flex items-center font-body space-x-2">{navLinks}</ul>
