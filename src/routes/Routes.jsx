@@ -15,6 +15,7 @@ import Progress from "../pages/dashboard/progress/Progress";
 import AdminRoute from "./AdminRoute";
 import Payment from "../pages/dashboard/PaymentHistory/Payment";
 import Features from "../pages/Features/Features";
+import ContactAnalytics from "../pages/dashboard/ContactAnalytics/ContactAnalytics";
 
 export const router = createBrowserRouter([
     {
@@ -56,6 +57,14 @@ export const router = createBrowserRouter([
                 element: <PrivateRoute><PaymentHistory /></PrivateRoute>
             },
             {
+                path: '/dashboard/contact-us',
+                element: <AdminRoute><AdminContact /></AdminRoute>
+            },
+            {
+                path: '/dashboard/contact-analytics',
+                element: <AdminRoute><ContactAnalytics /></AdminRoute>
+            },
+            {
                 path: '/dashboard/employee-list',
                 element: <PrivateRoute><EmployeeList /></PrivateRoute>
             },
@@ -70,10 +79,6 @@ export const router = createBrowserRouter([
             {
                 path: '/dashboard/all-employee-list',
                 element: <AdminRoute><AllEmployeeList /></AdminRoute>
-            },
-            {
-                path: '/dashboard/contact-us',
-                element: <AdminRoute><AdminContact /></AdminRoute>
             },
         ]
     }
