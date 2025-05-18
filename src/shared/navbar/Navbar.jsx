@@ -9,85 +9,93 @@ const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { user, logOut } = useAuth();
 
-    const linkClass = "w-full text-sm text-black font-medium px-3 py-2 rounded transition hover:bg-blue-100 hover:text-blue-600";
-    const activeClass = "w-full text-blue-600 bg-blue-200";
+    const linkClass = "w-full text-sm font-medium px-3 py-2 rounded transition";
+    const activeClass = "text-primary bg-blue-100";
 
     const handleLogout = () => {
         logOut()
-            .then(res => {
+            .then(() => {
                 Swal.fire({
                     icon: 'success',
-                    title: 'User Logout successfully.',
-                    showConfirmButton: false,
-                    timer: 1500
+                    title: 'Logged out successfully!',
+                    timer: 1500,
+                    showConfirmButton: false
                 });
             })
-            .catch(err => {
+            .catch((err) => {
                 Swal.fire({
                     icon: 'error',
                     title: err.message,
-                    showConfirmButton: false,
-                    timer: 1500
+                    timer: 1500,
+                    showConfirmButton: false
                 });
-            })
+            });
     };
 
     const navLinks = (
         <>
-            <li><NavLink to="/" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>Home</NavLink></li>
-            <li><NavLink to="/contact" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>Contact</NavLink></li>
+            <li><NavLink to="/" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : `${linkClass} text-gray-700 hover:text-primary`}>Home</NavLink></li>
+            <li><NavLink to="/features" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : `${linkClass} text-gray-700 hover:text-primary`}>Features</NavLink></li>
+            <li><NavLink to="/contact" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : `${linkClass} text-gray-700 hover:text-primary`}>Contact</NavLink></li>
+
             {user && (
-                <li><NavLink to="/dashboard" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>Dashboard</NavLink></li>
-            )}
-            {user ? (
-                <li><button onClick={handleLogout} className="text-sm font-medium text-red-500 hover:underline">Logout</button></li>
-            ) : (
                 <>
-                    <li><NavLink to="/login" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>Login</NavLink></li>
-                    <li><NavLink to="/register" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : linkClass}>Register</NavLink></li>
+                    <li><NavLink to="/dashboard" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : `${linkClass} text-gray-700 hover:text-primary`}>Dashboard</NavLink></li>
+                    <li><NavLink to="/profile" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : `${linkClass} text-gray-700 hover:text-primary`}>Profile</NavLink></li>
+                    <li><NavLink to="/overview" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : `${linkClass} text-gray-700 hover:text-primary`}>Overview</NavLink></li>
+                    <li>
+                        <button
+                            onClick={handleLogout}
+                            className="px-3 py-2 text-sm text-red-600 font-semibold hover:underline"
+                        >
+                            Logout
+                        </button>
+                    </li>
+                </>
+            )}
+
+            {!user && (
+                <>
+                    <li><NavLink to="/login" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : `${linkClass} text-gray-700 hover:text-primary`}>Login</NavLink></li>
+                    <li><NavLink to="/register" className={({ isActive }) => isActive ? `${linkClass} ${activeClass}` : `${linkClass} text-gray-700 hover:text-primary`}>Register</NavLink></li>
                 </>
             )}
         </>
     );
 
     return (
-        <nav className="w-full fixed top-0 z-50 bg-white shadow-md">
+        <nav className="w-full sticky top-0 z-50 bg-white shadow-md">
             <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-                {/* Logo */}
-                <div className="text-xl font-bold text-blue-600 tracking-tight">WorkNest</div>
+                <div className="text-2xl font-heading font-bold text-primary tracking-tight">WorkNest</div>
 
-                <div className="hidden md:flex items-center gap-2">
-                    {
-                        user && <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                            <div className="w-10 rounded-full">
-                                <img
-                                    alt="Tailwind CSS Navbar component"
-                                    src={user?.photoURL} />
+                <div className="hidden md:flex items-center gap-4">
+                    <ul className="flex items-center font-body space-x-2">{navLinks}</ul>
+
+                    {user && (
+                        <div tabIndex={0} className="avatar">
+                            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-primary">
+                                <img alt="User Avatar" src={user.photoURL} />
                             </div>
                         </div>
-                    }
-                    {/* Desktop Nav */}
-                    <ul className="hidden md:flex items-center space-x-2">{navLinks}</ul>
+                    )}
                 </div>
 
+                {/* Mobile Menu Icon */}
                 <div className="md:hidden flex items-center gap-2">
-                    {
-                        user && <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                            <div className="w-10 rounded-full">
-                                <img
-                                    alt="Tailwind CSS Navbar component"
-                                    src={user?.photoURL} />
+                    {user && (
+                        <div className="avatar">
+                            <div className="w-10 h-10 rounded-full border border-primary overflow-hidden">
+                                <img alt="User" src={user.photoURL} />
                             </div>
                         </div>
-                    }
-                    {/* Hamburger Button */}
-                    <button className="md:hidden text-black" onClick={() => setIsOpen(!isOpen)}>
+                    )}
+                    <button onClick={() => setIsOpen(!isOpen)} className="text-gray-700">
                         {isOpen ? <X size={24} /> : <Menu size={24} />}
                     </button>
                 </div>
             </div>
 
-            {/* Mobile Menu */}
+            {/* Mobile Dropdown */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
@@ -96,12 +104,12 @@ const Navbar = () => {
                         exit={{ height: 0 }}
                         className="bg-white shadow-md md:hidden px-4 pb-4"
                     >
-                        <ul className="space-y-2 pt-2">{navLinks}</ul>
+                        <ul className="flex flex-col space-y-2 font-body">{navLinks}</ul>
                     </motion.div>
                 )}
             </AnimatePresence>
         </nav>
     );
-}
+};
 
-export default Navbar
+export default Navbar;

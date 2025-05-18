@@ -184,56 +184,6 @@ const EmployeeList = () => {
                 </table>
             </div>
 
-            {/* Pay Modal */}
-            {/* {modalOpen && selectedEmployee && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded-lg w-full max-w-md shadow-lg">
-                        <h3 className="text-lg font-bold text-blue-600 mb-4">
-                            💸 Pay {selectedEmployee.name}
-                        </h3>
-                        <form onSubmit={handlePay} className="space-y-4">
-                            <div>
-                                <label className="block text-sm mb-1">Amount</label>
-                                <input
-                                    type="text"
-                                    value={selectedEmployee.salary}
-                                    disabled
-                                    className="w-full p-2 border rounded bg-gray-100"
-                                />
-                            </div>
-                            <div className="flex gap-4">
-                                <input
-                                    type="text"
-                                    name="month"
-                                    placeholder="Month (e.g. April)"
-                                    required
-                                    className="flex-1 p-2 border rounded"
-                                />
-                                <input
-                                    type="number"
-                                    name="year"
-                                    placeholder="Year (e.g. 2025)"
-                                    required
-                                    className="flex-1 p-2 border rounded"
-                                />
-                            </div>
-                            <div className="flex justify-end gap-3 pt-4">
-                                <button
-                                    type="button"
-                                    onClick={() => setModalOpen(false)}
-                                    className="px-4 py-2 border rounded"
-                                >
-                                    Cancel
-                                </button>
-                                <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded">
-                                    Confirm Pay
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )} */}
-
             {/* view details modal */}
             {
                 viewModalOpen && selectedEmployee && <EmployeeDetailsModal

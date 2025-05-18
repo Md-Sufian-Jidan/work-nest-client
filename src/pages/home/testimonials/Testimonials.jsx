@@ -4,24 +4,24 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "../../../hooks/useaxiosPublic";
+import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 
 const Testimonials = () => {
   const axiosPublic = useAxiosPublic();
 
   const { data: testimonials = [] } = useQuery({
-    queryKey: ['testimonials'],
+    queryKey: ["testimonials"],
     queryFn: async () => {
-      const res = await axiosPublic.get('/testimonials')
+      const res = await axiosPublic.get("/testimonials");
       return res.data;
     },
   });
 
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-4xl mx-auto px-4 text-center">
+    <section className="py-20 bg-gray-50">
+      <div className="max-w-6xl mx-auto px-4 text-center">
         <motion.h2
-          className="text-3xl md:text-4xl font-bold text-blue-600 mb-4"
+          className="text-3xl md:text-4xl font-bold text-primary font-heading mb-4"
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -31,28 +31,28 @@ const Testimonials = () => {
         </motion.h2>
 
         <motion.p
-          className="text-gray-600 mb-10 max-w-2xl mx-auto"
+          className="text-gray-600 font-body mb-12 max-w-2xl mx-auto text-base md:text-lg"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.6 }}
           viewport={{ once: true }}
         >
-          Real voices from people who use WorkNest to manage teams smarter.
+          Real voices from people using WorkNest to simplify their workflows and elevate their teams.
         </motion.p>
 
         <Swiper
           modules={[Pagination, Autoplay]}
-          autoplay={{ delay: 3000 }}
+          autoplay={{ delay: 4000, disableOnInteraction: false }}
           pagination={{ clickable: true }}
-          spaceBetween={30}
+          spaceBetween={40}
           slidesPerView={1}
-          className="pb-10"
+          className="pb-12"
         >
           {testimonials.map((t, i) => (
             <SwiperSlide key={i}>
               <motion.div
-                className="bg-gray-50 p-8 rounded-xl shadow text-left max-w-2xl mx-auto"
-                initial={{ opacity: 0, y: 40 }}
+                className="max-w-2xl mx-auto bg-white rounded-xl p-8 shadow-md text-left h-full"
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 * i }}
                 viewport={{ once: true }}
@@ -61,14 +61,16 @@ const Testimonials = () => {
                   <img
                     src={t.image}
                     alt={t.name}
-                    className="w-12 h-12 rounded-full object-cover"
+                    className="w-14 h-14 rounded-full object-cover border-2 border-primary"
                   />
                   <div>
-                    <h4 className="font-semibold text-gray-800">{t.name}</h4>
-                    <p className="text-sm text-gray-500">{t.role}</p>
+                    <h4 className="text-lg font-semibold text-gray-800 font-heading">{t.name}</h4>
+                    <p className="text-sm text-gray-500 font-body">{t.role}</p>
                   </div>
                 </div>
-                <p className="text-gray-700 text-sm leading-relaxed italic">“{t.feedback}”</p>
+                <p className="text-gray-700 font-body text-sm md:text-base leading-relaxed italic">
+                  “{t.feedback}”
+                </p>
               </motion.div>
             </SwiperSlide>
           ))}
@@ -76,5 +78,6 @@ const Testimonials = () => {
       </div>
     </section>
   );
-}
+};
+
 export default Testimonials;

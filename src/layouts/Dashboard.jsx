@@ -3,10 +3,11 @@ import { LogOut, Menu } from "lucide-react";
 import { useState } from "react";
 import useAuth from "../hooks/useAuth";
 import useRole from "../hooks/useRole";
+import Swal from "sweetalert2";
 
 const Dashboard = () => {
     const { role, isLoading } = useRole();
-    const { user } = useAuth();
+    const { user, logOut } = useAuth();
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const linksByRole = {
         employee: [
@@ -23,6 +24,25 @@ const Dashboard = () => {
         ],
     };
     const navLinks = linksByRole[role] || [];
+    const handleLogout = () => {
+        logOut()
+            .then(res => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'User Logout successfully.',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
+            .catch(err => {
+                Swal.fire({
+                    icon: 'error',
+                    title: err.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
+    };
 
     if (isLoading) return <span>Loading...</span>;
     return (
@@ -72,7 +92,7 @@ const Dashboard = () => {
                     <div className="flex items-center gap-3">
                         <img src={user?.photoURL} alt="Avatar" className="w-9 h-9 rounded-full" />
                         <span className="text-gray-700 font-medium">{user?.displayName}</span>
-                        <button className="text-red-500 hover:underline text-sm">
+                        <button onClick={handleLogout} className="text-red-500 hover:underline text-sm">
                             <LogOut size={18} />
                         </button>
                     </div>
