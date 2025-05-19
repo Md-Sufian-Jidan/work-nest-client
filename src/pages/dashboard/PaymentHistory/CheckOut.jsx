@@ -28,7 +28,7 @@ const CheckOut = ({ singleEmployee }) => {
             .then(res => {
                 setClientSecret(res?.data?.client_secret);
                 if (res.data?.error) {
-                    console.log(res.data?.error);
+                    // console.log(res.data?.error);
                     setError(res.data?.error);
                 }
             })
@@ -54,11 +54,11 @@ const CheckOut = ({ singleEmployee }) => {
             card
         })
         if (error) {
-            console.log('payment method error', error);
+            // console.log('payment method error', error);
             setError(error);
         }
         else {
-            console.log('success', paymentMethod);
+            // console.log('success', paymentMethod);
             setError('');
         };
         const address = {
@@ -83,7 +83,7 @@ const CheckOut = ({ singleEmployee }) => {
             console.log(confirmError);
         }
         else {
-            console.log('payment intent ', paymentIntent);
+            // console.log('payment intent ', paymentIntent);
             toast.warn('Your Payment is Processing');
             if (paymentIntent.status === 'succeeded') {
                 setTransactionId(paymentIntent?.id);

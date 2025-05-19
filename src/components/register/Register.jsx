@@ -43,6 +43,9 @@ const Register = () => {
     if (!/[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(data.password)) {
       return toast.error('Password must include at least one special character');
     }
+    if (!/\d/.test(data.bank)) {
+      return toast.error('Password must include at least one number');
+    }
 
     if (!data.role || !data.designation) {
       return toast.error('Please select both role and designation');

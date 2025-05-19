@@ -80,7 +80,7 @@ const Overview = () => {
     ],
   };
 
-  const role = overview?.role || "employee"; // fallback
+  const role = overview?.role || "employee";
   const dashboardCards = cards[role] || [];
 
   return (

@@ -47,7 +47,6 @@ const AllEmployeeList = () => {
   });
 
   const openModal = (user) => {
-    console.log(user);
     setSelectedUser(user);
     setModalOpen(true);
   };
