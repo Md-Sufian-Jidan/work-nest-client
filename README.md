@@ -132,13 +132,13 @@ VITE_FIREBASE_MEASUREMENT_ID=your-measurement-id
 
 ▶️ Usage Guide
 
-- Login/Register via Firebase Auth
-- Navigate to your role-specific dashboard
-- Admin: Manage employees, assign HR, adjust payroll
-- HR: Track employee progress, process salaries
-- Employee: Submit daily reports, view salary history
-- Visitor: Use the Contact Us page for inquiries
+-Login/Register via Firebase Auth
+-Navigate to your role-specific dashboard
+-Admin: Manage employees, assign HR, adjust payroll
+-HR: Track employee progress, process salaries
+-Employee: Submit daily reports, view salary history
+-Visitor: Use the Contact Us page for inquiries
 
 📄 License
-This project is licensed under the MIT License.
-See the LICENSE file for details.
+-This project is licensed under the MIT License.
+-See the LICENSE file for details.
