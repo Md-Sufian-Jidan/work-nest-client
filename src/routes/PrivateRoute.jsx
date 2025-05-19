@@ -6,16 +6,21 @@ const PrivateRoute = ({ children }) => {
     const { user, loading } = useAuth();
     const location = useLocation();
 
-    if (!user) return <div>no user</div>
+    if (loading) {
+        return (
+            <div className="h-16 w-16 border-4 border-dashed rounded-full animate-spin border-blue-600 mx-auto mt-10"></div>
+        );
+    }
 
-    if (user) return children;
-    if (loading) return <div className=" h-16 border-4 border-dashed rounded-full animate-spin dark:border-violet-600 mx-auto max-w-16"></div>
+    if (user) {
+        return children;
+    }
 
-
-    return <Navigate state={location?.pathname} to={'/login'} />
+    return <Navigate to="/login" state={{ from: location }} replace />;
 };
 
 PrivateRoute.propTypes = {
     children: PropTypes.node.isRequired,
 };
+
 export default PrivateRoute;

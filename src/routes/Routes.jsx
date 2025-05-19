@@ -16,6 +16,7 @@ import AdminRoute from "./AdminRoute";
 import Payment from "../pages/dashboard/PaymentHistory/Payment";
 import Features from "../pages/Features/Features";
 import ContactAnalytics from "../pages/dashboard/ContactAnalytics/ContactAnalytics";
+import Profile from "../pages/Profile/Profile";
 
 export const router = createBrowserRouter([
     {
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
                 element: <ContactUs />
             },
             {
+                path: '/profile',
+                element: <PrivateRoute><Profile /></PrivateRoute>
+            },
+            {
                 path: '/register',
                 element: <Register />
             },
@@ -48,6 +53,7 @@ export const router = createBrowserRouter([
         path: '/dashboard',
         element: <PrivateRoute><Dashboard /></PrivateRoute>,
         children: [
+            // employee
             {
                 path: '/dashboard/work-sheet',
                 element: <PrivateRoute><WorkSheet /></PrivateRoute>
@@ -56,14 +62,7 @@ export const router = createBrowserRouter([
                 path: '/dashboard/payment-history',
                 element: <PrivateRoute><PaymentHistory /></PrivateRoute>
             },
-            {
-                path: '/dashboard/contact-us',
-                element: <AdminRoute><AdminContact /></AdminRoute>
-            },
-            {
-                path: '/dashboard/contact-analytics',
-                element: <AdminRoute><ContactAnalytics /></AdminRoute>
-            },
+            // Hr
             {
                 path: '/dashboard/employee-list',
                 element: <PrivateRoute><EmployeeList /></PrivateRoute>
@@ -76,9 +75,18 @@ export const router = createBrowserRouter([
                 path: '/dashboard/progress',
                 element: <PrivateRoute><Progress /></PrivateRoute>
             },
+            // Admin
             {
                 path: '/dashboard/all-employee-list',
                 element: <AdminRoute><AllEmployeeList /></AdminRoute>
+            },
+            {
+                path: '/dashboard/contact-us',
+                element: <AdminRoute><AdminContact /></AdminRoute>
+            },
+            {
+                path: '/dashboard/contact-analytics',
+                element: <AdminRoute><ContactAnalytics /></AdminRoute>
             },
         ]
     }

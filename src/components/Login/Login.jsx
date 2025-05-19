@@ -6,7 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet";
-import useAxiosPublic from "../../hooks/useAxiosPublic";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const Login = () => {
   const { signIn, googleSignIn } = useAuth();

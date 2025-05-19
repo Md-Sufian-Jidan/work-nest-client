@@ -1,36 +1,70 @@
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import CheckOut from "./CheckOut";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
+import CheckOut from "./CheckOut";
+import { motion } from "framer-motion";
+import { Loader2 } from "lucide-react";
 
-// TODO: loadStripe api key
 const stripePromise = loadStripe(import.meta.env.VITE_PAYMENT_GATEWAY_PK);
 
 const Payment = () => {
-    const { email } = useParams();
-    const axiosSecure = useAxiosSecure();
-    const { user, loading } = useAuth();
+  const { email } = useParams();
+  const axiosSecure = useAxiosSecure();
+  const { user, loading: authLoading } = useAuth();
 
-    const { data: singleEmployee = {} } = useQuery({
-        queryKey: ['single-employee'],
-        enabled: !!user?.email || !loading,
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/single-employee/${email}`);
-            return res.data;
-        }
-    });
+  const {
+    data: employee = {},
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["single-employee", email],
+    enabled: !!user?.email && !authLoading,
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/single-employee/${email}`);
+      return res.data;
+    },
+  });
 
+  if (isLoading || authLoading) {
     return (
-        <div>
-            <Elements stripe={stripePromise}>
-                <CheckOut singleEmployee={singleEmployee} />
-            </Elements>
-        </div>
+      <div className="min-h-screen flex items-center justify-center text-blue-600">
+        <Loader2 className="animate-spin w-6 h-6 mr-2" />
+        Loading payment information...
+      </div>
     );
+  }
+
+  if (isError || !employee?._id) {
+    return (
+      <div className="text-center text-red-500 mt-10">
+        Failed to load employee information. Please try again.
+      </div>
+    );
+  }
+
+  return (
+    <motion.div
+      className="max-w-2xl mx-auto p-6 bg-white shadow rounded-md mt-10"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+    >
+      <h2 className="text-2xl font-bold text-blue-600 text-center mb-6">💳 Pay Salary</h2>
+
+      <div className="mb-6 p-4 border rounded-md bg-gray-50 text-sm">
+        <p><strong>Employee:</strong> {employee.name}</p>
+        <p><strong>Email:</strong> {employee.email}</p>
+        <p><strong>Salary:</strong> <span className="text-green-600 font-medium">${employee.salary}</span></p>
+      </div>
+
+      <Elements stripe={stripePromise}>
+        <CheckOut singleEmployee={employee} />
+      </Elements>
+    </motion.div>
+  );
 };
 
 export default Payment;

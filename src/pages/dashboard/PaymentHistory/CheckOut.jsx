@@ -123,36 +123,59 @@ const CheckOut = ({ singleEmployee }) => {
 
     return (
         <>
-            <div className="flex m-5 justify-between items-center gap-5">
-                <p>Employee Name: {singleEmployee.name}</p>
-                <p>Employee salary: ${singleEmployee.salary}</p>
-            </div>
-            <form onSubmit={handleSubmit}>
-                <CardElement
-                    options={{
-                        style: {
-                            base: {
-                                fontSize: '16px',
-                                color: '#424770',
-                                '::placeholder': {
-                                    color: '#aab7c4',
+            <div className="bg-white rounded-lg shadow p-6 my-6">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+                    <p className="text-gray-700">
+                        <span className="font-medium">Employee Name:</span> {singleEmployee.name}
+                    </p>
+                    <p className="text-gray-700">
+                        <span className="font-medium">Salary:</span>{" "}
+                        <span className="text-green-600 font-semibold">${singleEmployee.salary}</span>
+                    </p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="border p-4 rounded-md shadow-sm bg-gray-50">
+                        <CardElement
+                            options={{
+                                style: {
+                                    base: {
+                                        fontSize: "16px",
+                                        color: "#424770",
+                                        "::placeholder": {
+                                            color: "#aab7c4",
+                                        },
+                                    },
+                                    invalid: {
+                                        color: "#9e2146",
+                                    },
                                 },
-                            },
-                            invalid: {
-                                color: '#9e2146',
-                            },
-                        },
-                    }}
-                />
-                <button className="btn bg-blue-500 hover:bg-blue-700 m-4" type="submit" disabled={!stripe || !clientSecret}>
-                    Pay
-                </button>
+                            }}
+                        />
+                    </div>
 
-                {error && <p className="text-red-500">{error}</p>}
-                <p className="text-red-500">{error?.message}</p>
-                {transactionId && <p className="text-green-500">Your transaction id : {transactionId}</p>}
+                    <button
+                        type="submit"
+                        disabled={!stripe || !clientSecret}
+                        className={`w-full py-2 px-4 text-white rounded-md transition 
+        ${!stripe || !clientSecret ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}
+      `}
+      >
+                        Pay Now
+                    </button>
 
-            </form>
+                    {error && (
+                        <p className="text-sm text-red-500 mt-1">{error.message || error}</p>
+                    )}
+                    {transactionId && (
+                        <p className="text-sm text-green-600 mt-2">
+                            ✅ Payment successful. Transaction ID:{" "}
+                            <span className="font-medium">{transactionId}</span>
+                        </p>
+                    )}
+                </form>
+            </div>
+
         </>
     );
 };
