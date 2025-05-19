@@ -1,3 +1,6 @@
+| ![Home Page](https://i.ibb.co/DfmqFFx3/work-nest-client-web-app-4-1.png) |
+
+---
 # 🚀 WorkNest — Employee Management Dashboard (Client)
 
 Welcome to **WorkNest**, a sleek and secure **employee management dashboard** designed to streamline company operations with **role-based access**, dynamic tracking, and seamless payment features.
@@ -24,18 +27,6 @@ This is the **client-side** of the platform, developed with **React 19**, and po
 - 🎬 **Smooth Animations** using Framer Motion
 - 🔄 **React Query** for optimized data handling
 - 📨 **Public Contact Form** for visitors
-
----
-
-## 📸 Screenshots
-
-| Dashboard View         | Progress Tracker          |
-|------------------------|---------------------------|
-| ![Admin Dashboard](https://via.placeholder.com/600x400) | ![HR Tracker](https://via.placeholder.com/600x400) |
-
-| Salary Payment Flow    | Mobile Responsiveness     |
-|------------------------|---------------------------|
-| ![Stripe Checkout](https://via.placeholder.com/600x400) | ![Mobile View](https://via.placeholder.com/600x400) |
 
 ---
 
@@ -107,10 +98,9 @@ This is the **client-side** of the platform, developed with **React 19**, and po
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/worknest-client.git
-
+git clone https://github.com/Md-Sufian-Jidan/work-nest-client.git
 # Navigate to the project folder
-cd worknest-client
+cd work-nest-client
 
 # Install dependencies
 npm install
@@ -132,7 +122,7 @@ VITE_FIREBASE_MEASUREMENT_ID=your-measurement-id
 
 ▶️ Usage Guide
 
--Login/Register via Firebase Auth
+Login/Register via Firebase Auth
 -Navigate to your role-specific dashboard
 -Admin: Manage employees, assign HR, adjust payroll
 -HR: Track employee progress, process salaries
