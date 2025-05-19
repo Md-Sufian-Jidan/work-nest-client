@@ -17,6 +17,7 @@ import Payment from "../pages/dashboard/PaymentHistory/Payment";
 import Features from "../pages/Features/Features";
 import ContactAnalytics from "../pages/dashboard/ContactAnalytics/ContactAnalytics";
 import Profile from "../pages/Profile/Profile";
+import Overview from "../pages/OverView/Overview";
 
 export const router = createBrowserRouter([
     {
@@ -38,6 +39,10 @@ export const router = createBrowserRouter([
             {
                 path: '/profile',
                 element: <PrivateRoute><Profile /></PrivateRoute>
+            },
+            {
+                path: '/overview',
+                element: <PrivateRoute><Overview /></PrivateRoute>
             },
             {
                 path: '/register',

@@ -28,6 +28,30 @@ const Register = () => {
   const from = location.state?.from || "/";
 
   const onSubmit = async (data) => {
+    if (data.password.length < 6) {
+      return toast.error('Password must be at least 6 characters long');
+    }
+    if (!/[A-Z]/.test(data.password)) {
+      return toast.error('Password must include at least one uppercase letter');
+    }
+    if (!/[a-z]/.test(data.password)) {
+      return toast.error('Password must include at least one lowercase letter');
+    }
+    if (!/\d/.test(data.password)) {
+      return toast.error('Password must include at least one number');
+    }
+    if (!/[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(data.password)) {
+      return toast.error('Password must include at least one special character');
+    }
+
+    if (!data.role || !data.designation) {
+      return toast.error('Please select both role and designation');
+    }
+
+    if (!data.photo || data.photo.length === 0) {
+      return toast.error('Please upload a profile photo');
+    }
+
     const image_file = { image: data?.photo[0] };
     const res = await axiosPublic.post(image_hosting_api, image_file, {
       headers: {
@@ -48,6 +72,7 @@ const Register = () => {
               salary: data.salary,
               photo: res.data.data.display_url,
               status: "active",
+              verified: false,
             };
             axiosPublic.post("/users", userInfo).then((res) => {
               if (res.data.insertedId) {
