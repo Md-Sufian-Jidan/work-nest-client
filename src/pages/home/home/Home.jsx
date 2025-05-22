@@ -6,6 +6,7 @@ import Testimonials from "../testimonials/Testimonials";
 import WhyChooseUs from "../whyChooseUs/WhyChooseUs";
 import FeaturedTools from "../FeaturedTools/FeaturedTools";
 import RealTimeStats from "../RealTimeStats/RealTimeStats";
+import NewsletterSignup from "../NewsletterSignup/NewsletterSignup";
 
 const Home = () => {
     return (
@@ -19,6 +20,7 @@ const Home = () => {
             <FeaturedTools />
             <RealTimeStats />
             <Testimonials />
+            <NewsletterSignup />
             <OurTeam />
         </div>
     );
