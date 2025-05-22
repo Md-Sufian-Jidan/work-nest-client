@@ -38,7 +38,7 @@ const cardVariant = {
 
 const OurTeam = () => {
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-white dark:bg-bg-dark transition-colors">
       <div className="max-w-7xl mx-auto px-4 text-center">
         <motion.h2
           className="text-3xl md:text-4xl font-bold text-primary font-heading mb-4"
@@ -51,7 +51,7 @@ const OurTeam = () => {
         </motion.h2>
 
         <motion.p
-          className="text-gray-600 font-body mb-12 max-w-2xl mx-auto text-base md:text-lg"
+          className="text-text-secondary dark:text-gray-300 font-body mb-12 max-w-2xl mx-auto text-base md:text-lg"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.6 }}
@@ -64,7 +64,7 @@ const OurTeam = () => {
           {teamMembers.map((member, i) => (
             <motion.div
               key={i}
-              className="bg-gray-50 p-6 rounded-xl shadow-md hover:shadow-xl transition duration-300 text-center group"
+              className="bg-bg-soft dark:bg-card-bg-dark p-6 rounded-xl shadow-md dark:shadow-lg hover:shadow-xl transition duration-300 text-center group"
               variants={cardVariant}
               initial="hidden"
               whileInView="visible"
@@ -78,14 +78,18 @@ const OurTeam = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h4 className="text-lg font-semibold font-heading text-gray-800">{member.name}</h4>
-              <p className="text-sm text-gray-500 font-body">{member.role}</p>
+              <h4 className="text-lg font-semibold font-heading text-text-main dark:text-white">
+                {member.name}
+              </h4>
+              <p className="text-sm text-text-secondary dark:text-gray-400 font-body">
+                {member.role}
+              </p>
             </motion.div>
           ))}
         </div>
       </div>
     </section>
   );
-}
+};
 
 export default OurTeam;

@@ -5,7 +5,7 @@ import Footer from '../shared/footer/Footer';
 const Main = () => {
     return (
         <div>
-            <div className='h-20'>
+            <div className='h-[70px]'>
                 <Navbar />
             </div>
             <div className='min-h-[calc(100vh-310px)]'>

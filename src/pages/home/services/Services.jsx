@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
 
 const cardVariant = {
   hidden: { opacity: 0, y: 40 },
@@ -27,7 +27,7 @@ const Services = () => {
   });
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-bg-soft dark:bg-bg-dark">
       <div className="max-w-7xl mx-auto px-4 text-center">
         <motion.h2
           className="text-3xl md:text-4xl font-heading font-bold text-primary mb-4"
@@ -40,7 +40,7 @@ const Services = () => {
         </motion.h2>
 
         <motion.p
-          className="text-gray-600 font-body text-base md:text-lg mb-12 max-w-2xl mx-auto"
+          className="text-text-secondary dark:text-gray-300 font-body text-base md:text-lg mb-12 max-w-2xl mx-auto"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.6 }}
@@ -53,18 +53,20 @@ const Services = () => {
           {services.map((service, i) => (
             <motion.div
               key={i}
-              className="bg-white h-full flex flex-col justify-start text-left rounded-xl p-6 shadow-md hover:shadow-xl transition duration-300 border-t-4 border-primary"
+              className="bg-card-bg dark:bg-card-bg-dark h-full flex flex-col justify-start text-left rounded-xl p-6 shadow-md dark:shadow-md hover:shadow-xl dark:hover:shadow-lg transition duration-300 border-t-4 border-primary"
               variants={cardVariant}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
               custom={i}
             >
-              <div className="text-primary text-4xl mb-4">{service.icon}</div>
-              <h3 className="text-xl font-semibold font-heading text-gray-800 mb-2">
+              <div className="text-primary text-4xl mb-4">
+                {service.icon}
+              </div>
+              <h3 className="text-xl font-semibold font-heading text-text-main dark:text-white mb-2">
                 {service.title}
               </h3>
-              <p className="text-sm text-gray-600 font-body">
+              <p className="text-sm text-text-secondary dark:text-gray-300 font-body">
                 {service.description}
               </p>
             </motion.div>
