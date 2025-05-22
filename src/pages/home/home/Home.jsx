@@ -5,6 +5,7 @@ import Services from "../services/Services";
 import Testimonials from "../testimonials/Testimonials";
 import WhyChooseUs from "../whyChooseUs/WhyChooseUs";
 import FeaturedTools from "../FeaturedTools/FeaturedTools";
+import RealTimeStats from "../RealTimeStats/RealTimeStats";
 
 const Home = () => {
     return (
@@ -14,8 +15,9 @@ const Home = () => {
             </Helmet>
             <Banner />
             <WhyChooseUs />
-            <FeaturedTools />
             <Services />
+            <FeaturedTools />
+            <RealTimeStats />
             <Testimonials />
             <OurTeam />
         </div>
