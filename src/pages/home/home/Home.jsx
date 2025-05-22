@@ -12,10 +12,10 @@ const Home = () => {
                 <title>WorkNest | Home</title>
             </Helmet>
             <Banner />
+            <WhyChooseUs />
             <Services />
             <Testimonials />
             <OurTeam />
-            <WhyChooseUs />
         </div>
     );
 };
