@@ -34,37 +34,47 @@ const PaymentHistory = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h2 className="text-3xl font-bold text-blue-600 mb-6 text-center">
+        <h2 className="text-3xl font-bold text-primary dark:text-accent mb-6 text-center">
           💸 Payment History
         </h2>
 
         {isLoading ? (
-          <p className="text-center text-blue-600 animate-pulse">Loading payments...</p>
+          <p className="text-center text-primary dark:text-accent animate-pulse">
+            Loading payments...
+          </p>
         ) : payments.length === 0 ? (
-          <div className="text-center text-gray-500 mt-10 flex flex-col items-center">
-            <CreditCard className="w-10 h-10 text-gray-400 mb-2" />
+          <div className="text-center text-text-secondary dark:text-text-main mt-10 flex flex-col items-center">
+            <CreditCard className="w-10 h-10 text-text-secondary dark:text-text-main mb-2" />
             <p>No payment history yet.</p>
           </div>
         ) : (
           <>
             {/* Table */}
-            <div className="overflow-x-auto bg-white shadow rounded-lg">
-              <table className="min-w-full text-sm border rounded">
-                <thead className="bg-blue-100 text-gray-700">
+            <div className="overflow-x-auto bg-bg-soft dark:bg-bg-dark shadow rounded-lg dark:shadow-md">
+              <table className="min-w-full text-sm border rounded border-gray-300 dark:border-text-secondary text-text-main dark:text-text-secondary">
+                <thead>
                   <tr>
-                    <th className="p-3 text-left">Month</th>
-                    <th className="p-3 text-left">Amount</th>
-                    <th className="p-3 text-left">Transaction ID</th>
+                    <th className="p-3 text-left border-b border-gray-300 dark:border-text-secondary">
+                      Month
+                    </th>
+                    <th className="p-3 text-left border-b border-gray-300 dark:border-text-secondary">
+                      Amount
+                    </th>
+                    <th className="p-3 text-left border-b border-gray-300 dark:border-text-secondary">
+                      Transaction ID
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {paginated.map((pay, i) => (
                     <tr
                       key={i}
-                      className="border-t hover:bg-gray-50 transition-colors"
+                      className="border-t border-gray-300 dark:border-text-secondary hover:bg-bg-soft transition-colors"
                     >
                       <td className="p-3">{pay.month}</td>
-                      <td className="p-3 text-green-600 font-medium">${pay.employeeSalary}</td>
+                      <td className="p-3 text-green-600 dark:text-green-400 font-medium">
+                        ${pay.employeeSalary}
+                      </td>
                       <td className="p-3">{pay.transactionId}</td>
                     </tr>
                   ))}
@@ -79,10 +89,12 @@ const PaymentHistory = () => {
                   <button
                     key={i}
                     onClick={() => setPage(i + 1)}
-                    className={`px-4 py-1.5 rounded border text-sm font-medium transition ${page === i + 1
-                        ? "bg-blue-600 text-white border-blue-600"
-                        : "bg-white text-blue-600 border-gray-300 hover:bg-blue-50"
-                      }`}
+                    className={`px-4 py-1.5 rounded border text-sm font-medium transition
+                ${page === i + 1
+                        ? "bg-btn text-white border-btn dark:bg-accent dark:border-accent"
+                        : "bg-white text-primary border-gray-300 hover:bg-bg-soft dark:bg-bg-soft dark:text-text-main dark:border-text-secondary dark:hover:bg-bg-dark"
+                      }
+              `}
                   >
                     {i + 1}
                   </button>

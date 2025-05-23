@@ -111,10 +111,10 @@ const AllEmployeeList = () => {
         transition={{ duration: 0.4 }}
       >
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-blue-600">👑 All Verified Employees</h2>
+          <h2 className="text-2xl font-bold text-primary dark:text-accent">👑 All Verified Employees</h2>
           <button
             onClick={() => setView(view === "table" ? "grid" : "table")}
-            className="flex items-center gap-2 text-blue-600 border px-3 py-1 rounded hover:bg-blue-50 transition"
+            className="flex items-center gap-2 text-primary dark:text-accent border px-3 py-1 rounded hover:bg-blue-50 transition"
           >
             {view === "table" ? <LayoutGrid size={18} /> : <Table size={18} />}
             {view === "table" ? "Grid View" : "Table View"}
@@ -125,7 +125,7 @@ const AllEmployeeList = () => {
         {view === "table" && (
           <div className="overflow-x-auto border rounded-lg shadow-sm">
             <table className="min-w-full text-left text-sm">
-              <thead className="bg-blue-50">
+              <thead className="bg-bg-soft dark:bg-bg-dark">
                 <tr>
                   <th className="p-3">Name</th>
                   <th className="p-3">Designation</th>
@@ -151,7 +151,7 @@ const AllEmployeeList = () => {
                         ${user.salary}
                         <button
                           onClick={() => openModal(user)}
-                          className="text-blue-600 ml-2 hover:underline"
+                          className="text-primary ml-2 hover:underline"
                         >
                           <Pencil size={16} />
                         </button>
@@ -165,7 +165,7 @@ const AllEmployeeList = () => {
                             Promote
                           </button>
                         ) : (
-                          <span className="text-gray-400">—</span>
+                          <span className="text-text-secondary">—</span>
                         )}
                       </td>
                       <td className="p-3">
@@ -195,15 +195,15 @@ const AllEmployeeList = () => {
               {employees.map((user) => (
                 <motion.div
                   key={user._id}
-                  className="border rounded-lg p-4 shadow-sm bg-white"
+                  className="border rounded-lg p-4 shadow-sm bg-card-bg dark:bg-card-bg-dark"
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.3 }}
                 >
                   <h4 className="text-lg font-semibold">{user.name}</h4>
-                  <p className="text-sm text-gray-600 capitalize">Role: {user.role}</p>
-                  <p className="text-sm text-gray-600">Salary: ${user.salary}</p>
+                  <p className="text-sm capitalize">Role: {user.role}</p>
+                  <p className="text-sm">Salary: ${user.salary}</p>
 
                   <div className="mt-3 flex gap-2 flex-wrap">
                     {user.role === "employee" && (
@@ -243,13 +243,13 @@ const AllEmployeeList = () => {
         <AnimatePresence>
           {modalOpen && (
             <motion.div
-              className="fixed inset-0 bg-black/40 flex justify-center items-center z-50"
+              className="fixed inset-0 flex justify-center items-center z-50"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
               <motion.div
-                className="bg-white rounded-lg p-6 shadow-lg w-full max-w-md"
+                className="bg-bg-soft dark:bg-bg-dark rounded-lg p-6 shadow-lg w-full max-w-md"
                 initial={{ scale: 0.9 }}
                 animate={{ scale: 1 }}
                 exit={{ scale: 0.9 }}

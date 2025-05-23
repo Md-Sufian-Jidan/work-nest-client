@@ -72,7 +72,7 @@ const WhyChooseUs = () => {
         {features.map((feature, index) => (
           <motion.div
             key={index}
-            className="bg-card-bg dark:bg-card-bg-dark p-6 rounded-xl shadow-card dark:shadow-md hover:shadow-xl dark:hover:shadow-lg transition transform hover:scale-[1.015] border-t-4 border-accent h-full flex flex-col"
+            className="bg-card-bg dark:bg-card-bg-dark p-6 rounded-xl shadow-card dark:shadow-md hover:shadow-xl dark:hover:shadow-lg transition transform hover:scale-[1.015] border-t-4 border-primary dark:border-accent h-full flex flex-col"
             variants={cardVariants}
           >
             <div className="w-12 h-12 bg-primary dark:bg-accent rounded-full flex items-center justify-center mb-4 shadow-md">

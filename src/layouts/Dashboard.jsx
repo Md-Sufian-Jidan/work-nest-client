@@ -52,7 +52,7 @@ const Dashboard = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-blue-600 font-semibold">
+      <div className="min-h-screen flex items-center justify-center text-primary dark:text-accent font-semibold">
         Loading Dashboard...
       </div>
     );
@@ -63,7 +63,8 @@ const Dashboard = () => {
       <Helmet>
         <title>WorkNest | Dashboard</title>
       </Helmet>
-      <div className="flex min-h-screen bg-gray-50 relative">
+
+      <div className="flex min-h-screen bg-bg-soft dark:bg-bg-dark relative">
         {/* Overlay for mobile */}
         {sidebarOpen && (
           <div
@@ -80,11 +81,11 @@ const Dashboard = () => {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ duration: 0.3 }}
-              className="fixed z-50 md:static w-64 bg-white shadow-lg p-4 min-h-screen"
+              className="fixed z-50 md:static w-64 bg-bg-soft dark:bg-bg-dark shadow-lg dark:shadow-xl p-4 min-h-screen"
             >
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold text-blue-600">WorkNest</h2>
-                <button onClick={() => setSidebarOpen(false)} className="md:hidden">
+                <h2 className="text-xl font-bold text-primary dark:text-accent">WorkNest</h2>
+                <button onClick={() => setSidebarOpen(false)} className="md:hidden text-text-secondary">
                   <X />
                 </button>
               </div>
@@ -96,9 +97,9 @@ const Dashboard = () => {
                       <NavLink
                         to={link.to}
                         className={({ isActive }) =>
-                          `block px-3 py-2 rounded transition border-l-4 ${isActive
-                            ? "bg-blue-50 text-blue-700 border-blue-600"
-                            : "text-gray-700 border-transparent hover:bg-gray-100"
+                          `block px-3 py-2 rounded transition border-l-4 
+                        ${isActive ? "bg-bg-soft text-primary dark:text-accent border-primary dark:border-accent"
+                            : "text-text-secondary border-transparent hover:bg-gray-100 dark:hover:bg-gray-700"
                           }`
                         }
                       >
@@ -107,16 +108,16 @@ const Dashboard = () => {
                     </li>
                   ))
                 ) : (
-                  <li className="text-sm text-gray-400">No menu items available for this role.</li>
+                  <li className="text-sm text-text-secondary">No menu items available for this role.</li>
                 )}
-                <div className="border-t my-2"></div>
+                <div className="border-t dark:border-gray-600 my-2"></div>
                 <li>
                   <NavLink
                     to="/"
                     className={({ isActive }) =>
-                      `block px-3 py-2 rounded transition ${isActive
-                        ? "bg-blue-50 text-blue-700 border-l-4 border-blue-600"
-                        : "text-gray-700 hover:bg-gray-100"
+                      `block px-3 py-2 rounded transition border-l-4 ${isActive
+                        ? "bg-blue-50 dark:bg-bg-dark text-blue-700 dark:text-primary border-blue-600 dark:border-primary"
+                        : "text-gray-700 dark:text-text-secondary hover:bg-gray-100 dark:hover:bg-gray-700 border-transparent"
                       }`
                     }
                   >
@@ -127,9 +128,9 @@ const Dashboard = () => {
                   <NavLink
                     to="/contact"
                     className={({ isActive }) =>
-                      `block px-3 py-2 rounded transition ${isActive
-                        ? "bg-blue-50 text-blue-700 border-l-4 border-blue-600"
-                        : "text-gray-700 hover:bg-gray-100"
+                      `block px-3 py-2 rounded transition border-l-4 ${isActive
+                        ? "bg-blue-50 dark:bg-accent text-blue-700 dark:text-primary border-blue-600 dark:border-primary"
+                        : "text-gray-700 dark:text-text-secondary hover:bg-gray-100 dark:hover:bg-gray-700 border-transparent"
                       }`
                     }
                   >
@@ -144,12 +145,12 @@ const Dashboard = () => {
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
           {/* Topbar */}
-          <header className="bg-white shadow-md px-6 py-4 flex justify-between items-center sticky top-0 z-30">
+          <header className="bg-bg-soft dark:bg-bg-dark shadow-md dark:shadow-lg px-6 py-4 flex justify-between items-center sticky top-0 z-30">
             <div className="flex items-center gap-3">
-              <button onClick={() => setSidebarOpen(true)} className="md:hidden text-gray-600">
+              <button onClick={() => setSidebarOpen(true)} className="md:hidden text-gray-600 dark:text-text-secondary">
                 <Menu />
               </button>
-              <h1 className="text-xl font-semibold text-gray-800 hidden md:block">Dashboard</h1>
+              <h1 className="text-xl font-semibold text-text-main dark:text-text-secondary hidden md:block">Dashboard</h1>
             </div>
 
             <div className="flex items-center gap-4">
@@ -157,12 +158,12 @@ const Dashboard = () => {
                 <img src={user.photoURL} alt="avatar" className="w-9 h-9 rounded-full object-cover" />
               )}
               <div className="text-right">
-                <p className="text-sm font-medium text-gray-700">{user?.displayName}</p>
-                <p className="text-xs text-blue-600 capitalize">{role}</p>
+                <p className="text-sm font-medium text-text-main dark:text-text-secondary">{user?.displayName}</p>
+                <p className="text-xs text-blue-600 dark:text-primary capitalize">{role}</p>
               </div>
               <button
                 onClick={handleLogout}
-                className="text-sm text-red-500 hover:bg-red-100 px-2 py-1 rounded flex items-center gap-1"
+                className="text-sm text-red-500 hover:bg-red-100 dark:hover:bg-red-900 px-2 py-1 rounded flex items-center gap-1"
               >
                 <LogOut size={16} /> Logout
               </button>
@@ -170,7 +171,7 @@ const Dashboard = () => {
           </header>
 
           {/* Page Content */}
-          <main className="flex-1 p-6 overflow-y-auto">
+          <main className="flex-1 p-6 overflow-y-auto text-text-main dark:text-text-secondary">
             <Outlet />
           </main>
         </div>

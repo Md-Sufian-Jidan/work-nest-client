@@ -19,10 +19,10 @@ const IncreaseSalaryModal = ({ isOpen, onClose, onConfirm, currentSalary }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
-            <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
-                <h3 className="text-xl font-semibold text-blue-600 mb-4">Increase Salary</h3>
-                <p className="text-gray-600 mb-4">
+        <div className="fixed inset-0 z-50 bg-bg-soft dark:bg-bg-dark flex items-center justify-center">
+            <div className="bg-bg-soft dark:bg-bg-dark rounded-lg p-6 w-full max-w-md shadow-lg">
+                <h3 className="text-xl font-semibold text-primary dark:text-accent mb-4">Increase Salary</h3>
+                <p className="text-text-main dark:text-text-secondary mb-4">
                     Current Salary: <span className="font-bold">${currentSalary}</span>
                 </p>
 
@@ -49,7 +49,7 @@ const IncreaseSalaryModal = ({ isOpen, onClose, onConfirm, currentSalary }) => {
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                            className="px-4 py-2 bg-primary text-white rounded hover:bg-primary"
                         >
                             Update
                         </button>

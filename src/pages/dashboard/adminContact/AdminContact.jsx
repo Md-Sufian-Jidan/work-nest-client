@@ -24,9 +24,10 @@ const AdminContact = () => {
 
   return (
     <>
-    <Helmet>
-      <title>WorkNest | AdminContact</title>
-    </Helmet>
+      <Helmet>
+        <title>WorkNest | AdminContact</title>
+      </Helmet>
+
       <motion.div
         className="p-6 max-w-5xl mx-auto"
         initial={{ opacity: 0, y: 30 }}
@@ -34,7 +35,7 @@ const AdminContact = () => {
         transition={{ duration: 0.5 }}
       >
         <motion.h2
-          className="text-3xl font-bold text-blue-600 mb-6 text-center"
+          className="text-3xl font-bold text-primary dark:text-accent mb-6 text-center"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -43,10 +44,10 @@ const AdminContact = () => {
         </motion.h2>
 
         {isLoading ? (
-          <div className="text-center text-blue-600 animate-pulse">Loading messages...</div>
+          <div className="text-center text-primary dark:text-accent animate-pulse">Loading messages...</div>
         ) : messages.length === 0 ? (
-          <div className="text-center text-gray-500 flex flex-col items-center mt-10">
-            <Mail className="w-10 h-10 mb-2 text-gray-400" />
+          <div className="text-center text-text-main dark:text-text-secondary flex flex-col items-center mt-10">
+            <Mail className="w-10 h-10 mb-2 text-text-main dark:text-text-secondary" />
             <p>No contact messages yet.</p>
           </div>
         ) : (
@@ -54,22 +55,22 @@ const AdminContact = () => {
             {sortedMessages.map((msg, i) => (
               <motion.div
                 key={i}
-                className="bg-white border-l-4 border-blue-500 rounded-md shadow-sm p-4"
+                className="bg-card-bg dark:bg-card-bg-dark border-l-4 border-primary dark:border-accent rounded-md shadow-sm dark:shadow-md p-4"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
               >
                 <div className="flex justify-between items-center mb-2">
-                  <p className="text-sm text-gray-700">
-                    <Mail className="inline-block w-4 h-4 mr-1 text-blue-600" />
+                  <p className="text-sm text-text-main dark:text-text-secondary">
+                    <Mail className="inline-block w-4 h-4 mr-1 text-primary dark:text-accent" />
                     <span className="font-medium">{msg.email}</span>
                   </p>
-                  <p className="text-xs text-gray-500 flex items-center gap-1">
+                  <p className="text-xs text-text-main dark:text-text-secondary flex items-center gap-1">
                     <Clock size={14} />
                     {msg?.date} at {msg?.time}
                   </p>
                 </div>
-                <p className="text-gray-800 text-sm leading-relaxed">{msg.message}</p>
+                <p className="text-text-main text-sm leading-relaxed">{msg.message}</p>
               </motion.div>
             ))}
           </div>

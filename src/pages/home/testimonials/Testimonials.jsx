@@ -21,7 +21,7 @@ const Testimonials = () => {
     <section className="py-20 bg-bg-soft dark:bg-bg-dark">
       <div className="max-w-6xl mx-auto px-4 text-center">
         <motion.h2
-          className="text-3xl md:text-4xl font-bold text-primary text-accent font-heading mb-4"
+          className="text-3xl md:text-4xl font-bold text-primary dark:text-accent font-heading mb-4"
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}

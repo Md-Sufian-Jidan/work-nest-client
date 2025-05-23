@@ -136,67 +136,69 @@ const Register = () => {
       <Helmet>
         <title>WorkNest | Register</title>
       </Helmet>
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-10">
-        <div className="max-w-2xl w-full bg-white p-8 rounded-xl shadow-md">
-          <h2 className="text-3xl font-bold text-primary text-center mb-6">Create Your WorkNest Account</h2>
+
+      <div className="min-h-screen bg-bg-soft dark:bg-bg-dark flex items-center justify-center px-4 py-10">
+        <div className="max-w-2xl w-full bg-bg-soft dark:bg-card-bg-dark p-8 rounded-xl shadow-md dark:shadow-lg">
+          <h2 className="text-3xl font-bold text-primary dark:text-accent text-center mb-6">
+            Create Your WorkNest Account
+          </h2>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {/* SECTION: Basic Info */}
+            {/* Basic Info */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-gray-700">👤 Basic Info</h3>
+              <h3 className="text-lg font-semibold text-text-main">👤 Basic Info</h3>
 
               <div>
-                <label className="block mb-1 font-medium">Full Name</label>
+                <label className="block mb-1 font-medium text-text-main">Full Name</label>
                 <input
                   {...register("name", { required: "Name is required" })}
-                  className="w-full border border-gray-300 rounded-md p-2"
+                  className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-transparent text-text-main rounded-md p-2"
                   placeholder="John Doe"
                 />
                 {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
               </div>
 
               <div>
-                <label className="block mb-1 font-medium">Email</label>
+                <label className="block mb-1 font-medium text-text-main">Email</label>
                 <input
                   type="email"
                   {...register("email", { required: "Email is required" })}
-                  className="w-full border border-gray-300 rounded-md p-2"
+                  className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-transparent text-text-main rounded-md p-2"
                   placeholder="you@example.com"
                 />
                 {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
               </div>
 
               <div className="relative">
-                <label className="block mb-1 font-medium">Password</label>
+                <label className="block mb-1 font-medium text-text-main">Password</label>
                 <input
                   type={show ? "text" : "password"}
                   {...register("password", {
                     required: "Password is required",
                     pattern: {
                       value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/,
-                      message:
-                        "Must include uppercase, lowercase, number, special character, and 6+ characters.",
+                      message: "Must include uppercase, lowercase, number, special character, and 6+ characters.",
                     },
                   })}
-                  className="w-full border border-gray-300 rounded-md p-2"
+                  className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-transparent text-text-main rounded-md p-2"
                   placeholder="••••••"
                 />
-                <div className="absolute top-9 right-4 cursor-pointer">
+                <div className="absolute top-9 right-4 cursor-pointer text-gray-500 dark:text-text-secondary">
                   {show ? <EyeOff onClick={() => setShow(false)} /> : <Eye onClick={() => setShow(true)} />}
                 </div>
                 {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
               </div>
             </div>
 
-            {/* SECTION: Job Details */}
-            <div className="space-y-4 pt-4 border-t">
-              <h3 className="text-lg font-semibold text-gray-700">🧑‍💼 Job Details</h3>
+            {/* Job Details */}
+            <div className="space-y-4 pt-4 border-t border-gray-200 dark:border-gray-600">
+              <h3 className="text-lg font-semibold text-text-main">🧑‍💼 Job Details</h3>
 
               <div>
-                <label className="block mb-1 font-medium">Role</label>
+                <label className="block mb-1 font-medium text-text-main">Role</label>
                 <select
                   {...register("role", { required: "Role is required" })}
-                  className="w-full border border-gray-300 rounded-md p-2"
+                  className="w-full border border-gray-300 dark:border-gray-600 bg-bg-soft dark:bg-transparent text-text-main rounded-md p-2"
                 >
                   <option value="">Select Role</option>
                   <option value="employee">Employee</option>
@@ -206,51 +208,51 @@ const Register = () => {
               </div>
 
               <div>
-                <label className="block mb-1 font-medium">Designation</label>
+                <label className="block mb-1 font-medium text-text-main">Designation</label>
                 <input
                   {...register("designation", { required: "Designation is required" })}
-                  className="w-full border border-gray-300 rounded-md p-2"
+                  className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-transparent  text-text-main rounded-md p-2"
                   placeholder="e.g. Frontend Developer"
                 />
                 {errors.designation && <p className="text-red-500 text-sm">{errors.designation.message}</p>}
               </div>
             </div>
 
-            {/* SECTION: Financial Details */}
-            <div className="space-y-4 pt-4 border-t">
-              <h3 className="text-lg font-semibold text-gray-700">🏦 Bank Details</h3>
+            {/* Bank Details */}
+            <div className="space-y-4 pt-4 border-t border-gray-200 dark:border-gray-600">
+              <h3 className="text-lg font-semibold text-text-main">🏦 Bank Details</h3>
 
               <div>
-                <label className="block mb-1 font-medium">Bank Account No</label>
+                <label className="block mb-1 font-medium text-text-main">Bank Account No</label>
                 <input
                   {...register("bank", { required: "Bank account is required" })}
-                  className="w-full border border-gray-300 rounded-md p-2"
+                  className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-transparent text-text-main rounded-md p-2"
                   placeholder="1234567890"
                 />
                 {errors.bank && <p className="text-red-500 text-sm">{errors.bank.message}</p>}
               </div>
 
               <div>
-                <label className="block mb-1 font-medium">Salary</label>
+                <label className="block mb-1 font-medium text-text-main">Salary</label>
                 <input
                   type="number"
                   {...register("salary", { required: "Salary is required" })}
-                  className="w-full border border-gray-300 rounded-md p-2"
+                  className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-transparent text-text-main rounded-md p-2"
                   placeholder="50000"
                 />
                 {errors.salary && <p className="text-red-500 text-sm">{errors.salary.message}</p>}
               </div>
             </div>
 
-            {/* SECTION: Upload Photo */}
-            <div className="pt-4 border-t">
-              <label className="block mb-1 font-medium">Upload Photo</label>
+            {/* Upload Photo */}
+            <div className="pt-4 border-t border-gray-200 dark:border-gray-600">
+              <label className="block mb-1 font-medium text-text-main">Upload Photo</label>
               <input
                 type="file"
                 accept="image/*"
                 {...register("photo", { required: "Photo is required" })}
                 onChange={handleImageChange}
-                className="w-full"
+                className="w-full text-text-main"
               />
               {imagePreview && (
                 <img
@@ -273,16 +275,17 @@ const Register = () => {
 
           {/* Social Auth */}
           <div className="mt-6 text-center space-y-3">
-            <p className="text-sm text-gray-500">or sign up with</p>
+            <p className="text-sm text-text-secondary">or sign up with</p>
             <button
               onClick={handleGoogleSignIn}
-              className="bg-gray-100 p-2 rounded hover:shadow-md w-full flex justify-center items-center gap-2"
+              className="flex items-center justify-center w-full gap-2 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-black dark:text-white p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition"
             >
-              <FaGoogle className="text-green-500" /> <span className="font-medium">Google</span>
+              <FaGoogle className="text-green-500" />
+              <span className="font-medium">Continue with Google</span>
             </button>
-            <p className="text-sm">
+            <p className="text-sm text-text-secondary">
               Already have an account?{" "}
-              <Link to="/login" className="text-primary hover:underline font-medium">
+              <Link to="/login" className="text-primary hover:underline font-medium dark:text-primary">
                 Login
               </Link>
             </p>

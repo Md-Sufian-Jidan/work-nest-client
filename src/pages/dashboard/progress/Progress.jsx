@@ -35,18 +35,19 @@ const Progress = () => {
       <Helmet>
         <title>WorkNest | Progress</title>
       </Helmet>
+
       <motion.div
         className="p-6 max-w-6xl mx-auto"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h2 className="text-3xl font-bold text-blue-600 mb-6">📈 Progress Tracker</h2>
+        <h2 className="text-3xl font-bold text-primary dark:text-accent mb-6">📈 Progress Tracker</h2>
 
         {/* Filters */}
         <div className="flex flex-col md:flex-row items-center gap-4 mb-6">
           <select
-            className="border p-2 rounded-md w-full md:w-60 bg-white shadow-sm"
+            className="border border-gray-300 dark:border-text-secondary p-2 rounded-md w-full md:w-60 bg-white dark:bg-bg-soft text-gray-800 dark:text-text-main shadow-sm"
             value={selectedEmployee}
             onChange={(e) => setSelectedEmployee(e.target.value)}
           >
@@ -57,7 +58,7 @@ const Progress = () => {
           </select>
 
           <select
-            className="border p-2 rounded-md w-full md:w-60 bg-white shadow-sm"
+            className="border border-gray-300 dark:border-text-secondary p-2 rounded-md w-full md:w-60 bg-white dark:bg-bg-soft text-gray-800 dark:text-text-main shadow-sm"
             value={selectedMonth}
             onChange={(e) => setSelectedMonth(e.target.value)}
           >
@@ -70,27 +71,27 @@ const Progress = () => {
         </div>
 
         {/* Summary */}
-        <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded mb-6 shadow-sm">
-          <p className="text-blue-800 text-lg font-semibold">
+        <div className="bg-blue-50 dark:bg-bg-soft border-l-4 border-primary dark:border-accent p-4 rounded mb-6 shadow-sm">
+          <p className="text-primary dark:text-accent text-lg font-semibold">
             Total Hours Worked:{" "}
-            <span className="font-bold text-blue-900">{totalHours}</span>
+            <span className="font-bold text-text-main">{totalHours}</span>
           </p>
         </div>
 
         {/* Table */}
-        <div className="overflow-x-auto rounded-lg border bg-white shadow">
+        <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-text-secondary bg-white dark:bg-bg-soft shadow">
           {isLoading ? (
-            <div className="flex justify-center py-8 text-blue-600">
+            <div className="flex justify-center py-8 text-primary dark:text-accent">
               <Loader2 className="w-5 h-5 animate-spin mr-2" />
               Loading work records...
             </div>
           ) : filteredRecords?.length === 0 ? (
-            <p className="text-center text-gray-500 py-6">
+            <p className="text-center text-text-secondary py-6">
               No work records found for the selected filters.
             </p>
           ) : (
-            <table className="min-w-full text-left text-sm">
-              <thead className="bg-blue-100 text-gray-700 font-semibold">
+            <table className="min-w-full text-left text-sm bg-bg-soft dark:bg-bg-dark text-text-main dark:text-text-secondary">
+              <thead className="font-semibold">
                 <tr>
                   <th className="p-3">Employee</th>
                   <th className="p-3">Task</th>
@@ -100,11 +101,16 @@ const Progress = () => {
               </thead>
               <tbody>
                 {filteredRecords.map((item, index) => (
-                  <tr key={index} className="border-t hover:bg-gray-50 transition">
-                    <td className="p-3">{item.name || item?.email}</td>
-                    <td className="p-3">{item.task}</td>
-                    <td className="p-3">{item.hoursWorked}</td>
-                    <td className="p-3">{new Date(item.date).toLocaleDateString()}</td>
+                  <tr
+                    key={index}
+                    className="border-t border-gray-200 dark:border-text-secondary hover:bg-gray-50 transition "
+                  >
+                    <td className="p-3 text-text-main dark:text-text-secondary">{item.name || item?.email}</td>
+                    <td className="p-3 text-text-main dark:text-text-secondary">{item.task}</td>
+                    <td className="p-3 text-text-main dark:text-text-secondary">{item.hoursWorked}</td>
+                    <td className="p-3 text-text-main dark:text-text-secondary">
+                      {new Date(item.date).toLocaleDateString()}
+                    </td>
                   </tr>
                 ))}
               </tbody>

@@ -53,7 +53,7 @@ const Services = () => {
           {services.map((service, i) => (
             <motion.div
               key={i}
-              className="bg-card-bg dark:bg-card-bg-dark h-full flex flex-col justify-start text-left rounded-xl p-6 shadow-md dark:shadow-md hover:shadow-xl dark:hover:shadow-lg transition duration-300 border-t-4 border-accent"
+              className="bg-card-bg dark:bg-card-bg-dark h-full flex flex-col justify-start text-left rounded-xl p-6 shadow-md dark:shadow-md hover:shadow-xl dark:hover:shadow-lg transition duration-300 border-t-4 border-primary dark:border-accent"
               variants={cardVariant}
               initial="hidden"
               whileInView="visible"

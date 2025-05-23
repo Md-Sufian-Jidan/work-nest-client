@@ -21,11 +21,19 @@ const Profile = () => {
     });
 
     if (loading || isLoading) {
-        return <div className="text-center py-10 text-blue-600 font-semibold">Loading Profile...</div>;
+        return (
+            <div className="text-center py-10 text-blue-600 dark:text-accent font-semibold">
+                Loading Profile...
+            </div>
+        );
     }
 
     if (!profile?.email) {
-        return <div className="text-center py-10 text-gray-500">No profile data found.</div>;
+        return (
+            <div className="text-center py-10 text-gray-500 dark:text-text-secondary">
+                No profile data found.
+            </div>
+        );
     }
 
     return (
@@ -39,22 +47,35 @@ const Profile = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
             >
-                <h2 className="text-2xl font-bold text-blue-600 mb-6 text-center">👤 My Profile</h2>
+                <h2 className="text-2xl font-bold text-primary dark:text-accent mb-6 text-center">
+                    👤 My Profile
+                </h2>
 
-                <div className="bg-white rounded-lg shadow p-6 flex flex-col sm:flex-row items-center gap-6 border-t-4 border-blue-500">
+                <div className=" dark:bg-bg-dark rounded-lg shadow dark:shadow-lg p-6 flex flex-col sm:flex-row items-center gap-6 border-t-4 border-primary dark:border-accent">
                     <img
                         src={profile.photo}
                         alt={profile.name}
-                        className="w-24 h-24 rounded-full object-cover border-2 border-blue-200"
+                        className="w-24 h-24 rounded-full object-cover border-2 border-primary dark:border-accent"
                     />
-                    <div className="w-full space-y-2">
+                    <div className="w-full space-y-2 text-text-main dark:text-text-secondary">
                         <p><strong>Name:</strong> {profile.name}</p>
                         <p><strong>Email:</strong> {profile.email}</p>
                         <p><strong>Role:</strong> {profile.role}</p>
                         <p><strong>Designation:</strong> {profile.designation}</p>
                         <p><strong>Bank Account:</strong> {profile.bank_account_no}</p>
                         <p><strong>Salary:</strong> ${profile.salary}</p>
-                        <p><strong>Status:</strong> <span className={profile.status === "fired" ? "text-red-500" : "text-green-600"}>{profile.status}</span></p>
+                        <p>
+                            <strong>Status:</strong>{" "}
+                            <span
+                                className={
+                                    profile.status === "fired"
+                                        ? "text-red-500 dark:text-red-400"
+                                        : "text-green-600 dark:text-green-400"
+                                }
+                            >
+                                {profile.status}
+                            </span>
+                        </p>
                         <p><strong>Verified:</strong> {profile.verified ? "✅ Yes" : "❌ No"}</p>
                     </div>
                 </div>
@@ -63,7 +84,7 @@ const Profile = () => {
                 <div className="mt-4 text-center">
                     <button
                         onClick={() => setModalOpen(true)}
-                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                        className="px-4 py-2 bg-primary dark:bg-btn text-white rounded hover:bg-blue-700 dark:hover:bg-btn/90 transition"
                     >
                         Edit Profile
                     </button>

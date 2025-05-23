@@ -54,22 +54,25 @@ const WorkSheet = () => {
         <title>WorkNest | WorkSheet</title>
       </Helmet>
       <div className="p-6">
-        <h2 className="text-2xl font-bold text-blue-600 mb-6">📋 Work Sheet</h2>
-
+        <h2 className="text-2xl font-bold text-primary dark:text-accent mb-6">📋 Work Sheet</h2>
         {/* Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="grid md:grid-cols-5 gap-4 mb-8">
           {/* Task */}
           <div className="col-span-2">
             <select
               {...register("task", { required: true })}
-              className="w-full border rounded px-3 py-2 text-sm"
+              className="w-full border border-gray-300 dark:border-text-secondary rounded px-3 py-2 text-sm bg-white dark:bg-bg-soft text-text-main dark:text-text-main"
             >
               <option value="">Select Task</option>
               {taskOptions.map((task, idx) => (
-                <option key={idx} value={task}>{task}</option>
+                <option key={idx} value={task}>
+                  {task}
+                </option>
               ))}
             </select>
-            {errors.task && <span className="text-sm text-red-500">Task is required</span>}
+            {errors.task && (
+              <span className="text-sm text-red-500 dark:text-red-400">Task is required</span>
+            )}
           </div>
 
           {/* Hours Worked */}
@@ -78,9 +81,11 @@ const WorkSheet = () => {
               type="number"
               placeholder="Hours"
               {...register("hoursWorked", { required: true, min: 1 })}
-              className="w-full border rounded px-3 py-2 text-sm"
+              className="w-full border border-gray-300 dark:border-text-secondary rounded px-3 py-2 text-sm bg-white dark:bg-bg-soft text-text-main dark:text-text-main"
             />
-            {errors.hoursWorked && <span className="text-sm text-red-500">Hours must be at least 1</span>}
+            {errors.hoursWorked && (
+              <span className="text-sm text-red-500 dark:text-red-400">Hours must be at least 1</span>
+            )}
           </div>
 
           {/* Date */}
@@ -88,7 +93,7 @@ const WorkSheet = () => {
             <DatePicker
               selected={date}
               onChange={(d) => setDate(d)}
-              className="w-full border rounded px-3 py-2 text-sm"
+              className="w-full border border-gray-300 dark:border-text-secondary rounded px-3 py-2 text-sm bg-white dark:bg-bg-soft text-text-main dark:text-text-main"
               dateFormat="dd/MM/yyyy"
             />
           </div>
@@ -97,7 +102,7 @@ const WorkSheet = () => {
           <div className="flex items-center">
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white font-medium py-2 px-4 rounded hover:bg-blue-700 transition"
+              className="w-full bg-btn text-white font-medium py-2 px-4 rounded hover:bg-btn-hover dark:hover:bg-accent transition"
             >
               Add
             </button>
@@ -105,28 +110,44 @@ const WorkSheet = () => {
         </form>
 
         {/* Table */}
-        <div className="overflow-x-auto rounded shadow">
-          <table className="min-w-full text-sm bg-white border">
-            <thead className="bg-blue-100 text-left">
+        <div className="overflow-x-auto rounded shadow bg-white dark:bg-bg-soft dark:shadow-md">
+          <table className="min-w-full text-sm border border-gray-300 dark:border-text-secondary text-text-main dark:text-text-secondary bg-bg-soft dark:bg-bg-dark">
+            <thead className="bg-bg-soft dark:bg-bg-dark text-left text-text-secondary">
               <tr>
-                <th className="p-3 border">Name</th>
-                <th className="p-3 border">Task</th>
-                <th className="p-3 border">Hours</th>
-                <th className="p-3 border">Date</th>
+                <th className="p-3 border border-gray-300 dark:border-text-secondary">Name</th>
+                <th className="p-3 border border-gray-300 dark:border-text-secondary">Task</th>
+                <th className="p-3 border border-gray-300 dark:border-text-secondary">Hours</th>
+                <th className="p-3 border border-gray-300 dark:border-text-secondary">Date</th>
               </tr>
             </thead>
             <tbody>
               {works.length === 0 ? (
                 <tr>
-                  <td colSpan="4" className="p-4 text-center text-gray-500">No work records yet.</td>
+                  <td
+                    colSpan="4"
+                    className="p-4 text-center text-text-secondary"
+                  >
+                    No work records yet.
+                  </td>
                 </tr>
               ) : (
                 works.map((log, i) => (
-                  <tr key={i} className="border-t hover:bg-gray-50 transition">
-                    <td className="p-3 border">{log.name}</td>
-                    <td className="p-3 border">{log.task}</td>
-                    <td className="p-3 border">{log.hoursWorked}</td>
-                    <td className="p-3 border">{log.date}</td>
+                  <tr
+                    key={i}
+                    className="border-t border-gray-300 dark:border-text-secondary hover:bg-bg-soft transition"
+                  >
+                    <td className="p-3 border border-gray-300 dark:border-text-secondary">
+                      {log.name}
+                    </td>
+                    <td className="p-3 border border-gray-300 dark:border-text-secondary">
+                      {log.task}
+                    </td>
+                    <td className="p-3 border border-gray-300 dark:border-text-secondary">
+                      {log.hoursWorked}
+                    </td>
+                    <td className="p-3 border border-gray-300 dark:border-text-secondary">
+                      {log.date}
+                    </td>
                   </tr>
                 ))
               )}

@@ -47,14 +47,14 @@ const Payment = () => {
 
   return (
     <motion.div
-      className="max-w-2xl mx-auto p-6 bg-white shadow rounded-md mt-10"
+      className="max-w-2xl mx-auto p-6 bg-card-bg dark:bg-card-bg-dark shadow rounded-md mt-10"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
     >
-      <h2 className="text-2xl font-bold text-blue-600 text-center mb-6">💳 Pay Salary</h2>
+      <h2 className="text-2xl font-bold text-primary dark:text-accent text-center mb-6">💳 Pay Salary</h2>
 
-      <div className="mb-6 p-4 border rounded-md bg-gray-50 text-sm">
+      <div className="mb-6 p-4 border rounded-md bg-bg-soft dark:bg-bg-dark text-text-secondary text-sm">
         <p><strong>Employee:</strong> {employee.name}</p>
         <p><strong>Email:</strong> {employee.email}</p>
         <p><strong>Salary:</strong> <span className="text-green-600 font-medium">${employee.salary}</span></p>

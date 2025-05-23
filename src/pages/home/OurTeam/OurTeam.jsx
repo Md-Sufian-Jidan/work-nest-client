@@ -38,7 +38,7 @@ const cardVariant = {
 
 const OurTeam = () => {
   return (
-    <section className="py-20 bg-white dark:bg-bg-dark transition-colors">
+    <section className="py-20 bg-bg-soft dark:bg-bg-dark transition-colors">
       <div className="max-w-7xl mx-auto px-4 text-center">
         <motion.h2
           className="text-3xl md:text-4xl font-bold text-primary dark:text-accent font-heading mb-4"
@@ -71,7 +71,7 @@ const OurTeam = () => {
               viewport={{ once: true, amount: 0.2 }}
               custom={i}
             >
-              <div className="w-24 h-24 mx-auto rounded-full overflow-hidden ring-4 ring-primary/30 shadow mb-4 transform group-hover:scale-105 transition duration-300">
+              <div className="w-24 h-24 mx-auto rounded-full overflow-hidden ring-4 ring-primary/30 dark:ring-accent/30 shadow mb-4 transform group-hover:scale-105 transition duration-300">
                 <img
                   src={member.image}
                   alt={member.name}

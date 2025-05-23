@@ -48,34 +48,34 @@ const ContactAnalytics = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <h2 className="text-3xl font-bold text-blue-600 mb-6 text-center">📈 Contact Analytics</h2>
+      <h2 className="text-3xl font-bold text-primary dark:text-accent mb-6 text-center">📈 Contact Analytics</h2>
 
       {isLoading ? (
-        <p className="text-center text-blue-600 animate-pulse">Loading analytics...</p>
+        <p className="text-center text-primary dark:text-accent animate-pulse">Loading analytics...</p>
       ) : (
         <>
           <div className="grid sm:grid-cols-2 gap-6 mb-8">
-            <div className="bg-white shadow rounded-lg p-4 text-center border-t-4 border-blue-500">
+            <div className="bg-card-bg dark:bg-card-bg-dark shadow rounded-lg p-4 text-center border-t-4 border-primary dark:border-accent">
               <p className="text-sm text-gray-500">Total Messages</p>
-              <h3 className="text-2xl font-bold text-blue-700">{total}</h3>
+              <h3 className="text-2xl font-bold text-primary dark:text-accent">{total}</h3>
             </div>
 
-            <div className="bg-white shadow rounded-lg p-4 text-center border-t-4 border-green-500">
-              <p className="text-sm text-gray-500">Most Active Day</p>
+            <div className="bg-card-bg dark:bg-card-bg-dark shadow rounded-lg p-4 text-center border-t-4 border-primary dark:border-accent">
+              <p className="text-sm text-text-main dark:text-text-secondary">Most Active Day</p>
               {mostActive ? (
-                <h3 className="text-xl font-semibold text-gray-800">
+                <h3 className="text-xl font-semibold text-primary dark:text-accent">
                   {mostActive[0]} — {mostActive[1]} message(s)
                 </h3>
               ) : (
-                <p className="text-gray-400">No data yet.</p>
+                <p className="text-text-secondary">No data yet.</p>
               )}
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-4">
-            <h4 className="text-lg font-semibold text-gray-700 mb-4">Monthly Message Overview</h4>
+          <div className="bg-card-bg dark:bg-card-bg-dark rounded-lg shadow p-4">
+            <h4 className="text-lg font-semibold text-text-secondary mb-4">Monthly Message Overview</h4>
             {chartData.length === 0 ? (
-              <p className="text-gray-500 text-sm text-center">Not enough data to display chart.</p>
+              <p className="text-text-secondary text-sm text-center">Not enough data to display chart.</p>
             ) : (
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={chartData}>

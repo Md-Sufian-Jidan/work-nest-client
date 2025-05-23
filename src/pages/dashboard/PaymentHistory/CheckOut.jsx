@@ -123,9 +123,9 @@ const CheckOut = ({ singleEmployee }) => {
 
     return (
         <>
-            <div className="bg-white rounded-lg shadow p-6 my-6">
+            <div className="bg-card-bg dark:bg-card-bg-dark rounded-lg shadow p-6 my-6">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
-                    <p className="text-gray-700">
+                    <p className="text-text-main">
                         <span className="font-medium">Employee Name:</span> {singleEmployee.name}
                     </p>
                     <p className="text-gray-700">
@@ -135,7 +135,7 @@ const CheckOut = ({ singleEmployee }) => {
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="border p-4 rounded-md shadow-sm bg-gray-50">
+                    <div className="border p-4 rounded-md shadow-sm bg-bg-soft dark:bg-bg-dark text-text-secondary">
                         <CardElement
                             options={{
                                 style: {

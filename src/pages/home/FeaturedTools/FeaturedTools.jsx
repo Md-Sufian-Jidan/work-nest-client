@@ -75,7 +75,7 @@ const FeaturedTools = () => {
           {tools.map((tool, i) => (
             <motion.div
               key={i}
-              className="bg-white dark:bg-card-bg-dark border-t-4 border-accent rounded-xl p-6 shadow-md hover:shadow-xl transition duration-300 text-left"
+              className="bg-white dark:bg-card-bg-dark border-t-4 border-primary dark:border-accent rounded-xl p-6 shadow-md hover:shadow-xl transition duration-300 text-left"
               variants={cardVariants}
               initial="hidden"
               whileInView="visible"

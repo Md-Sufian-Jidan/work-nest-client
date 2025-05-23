@@ -4,7 +4,7 @@ import Footer from '../shared/footer/Footer';
 
 const Main = () => {
     return (
-        <div>
+        <div className='bg-bg-soft dark:bg-bg-dark'>
             <div className='h-[70px]'>
                 <Navbar />
             </div>

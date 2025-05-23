@@ -4,11 +4,11 @@ import useRole from "../../hooks/useRole";
 const Footer = () => {
   const { role } = useRole();
   return (
-    <footer className="bg-white dark:bg-bg-dark text-gray-700 dark:text-gray-300 pt-16 pb-6 border-t dark:border-gray-700">
+    <footer className="bg-bg-soft dark:bg-bg-dark text-gray-700 dark:text-gray-300 pt-16 pb-6 border-t dark:border-gray-700">
       <div className="max-w-7xl mx-auto px-4 grid sm:grid-cols-2 md:grid-cols-4 gap-10 text-left">
         {/* Brand + Intro */}
         <div>
-          <h2 className="text-2xl font-bold text-primary font-heading mb-3">WorkNest</h2>
+          <h2 className="text-2xl font-bold text-primary dark:text-accent font-heading mb-3">WorkNest</h2>
           <p className="text-sm text-gray-600 dark:text-gray-400 font-body leading-relaxed">
             Simplifying employee management with smart tools for HRs, Admins, and teams to work better together.
           </p>

@@ -25,8 +25,7 @@ const EmployeeList = () => {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [viewModalOpen, setViewModalOpen] = useState(false);
 
-  // Fetch employee list
-  const { data: employees = [], isLoading } = useQuery({
+  const { data: employees = [] } = useQuery({
     queryKey: ["employees"],
     enabled: !!user?.email,
     queryFn: async () => {
@@ -35,7 +34,6 @@ const EmployeeList = () => {
     },
   });
 
-  // Mutation for verification toggle
   const toggleVerify = useMutation({
     mutationFn: async (emp) => {
       const update = { verified: !emp.verified };
@@ -82,7 +80,11 @@ const EmployeeList = () => {
     }),
     columnHelper.accessor("email", {
       header: "Email",
-      cell: (info) => <span className="text-sm text-gray-700">{info.getValue()}</span>,
+      cell: (info) => (
+        <span className="text-sm text-text-main dark:text-text-secondary">
+          {info.getValue()}
+        </span>
+      ),
     }),
     columnHelper.accessor("verified", {
       header: "Verified",
@@ -91,8 +93,14 @@ const EmployeeList = () => {
         return (
           <button
             onClick={() => handleVerify(emp)}
-            className={`text-xl ${emp.verified ? "text-green-500" : "text-red-500"}`}
-            title={emp.verified ? "Verified - Click to unverify" : "Not verified - Click to verify"}
+            className={`text-xl ${
+              emp.verified ? "text-green-500 dark:text-green-400" : "text-red-500 dark:text-red-400"
+            }`}
+            title={
+              emp.verified
+                ? "Verified - Click to unverify"
+                : "Not verified - Click to verify"
+            }
           >
             {emp.verified ? <Check /> : <X />}
           </button>
@@ -106,7 +114,9 @@ const EmployeeList = () => {
     columnHelper.accessor("salary", {
       header: "Salary",
       cell: (info) => (
-        <span className="text-blue-600 font-semibold">${info.getValue()}</span>
+        <span className="text-primary font-semibold">
+          ${info.getValue()}
+        </span>
       ),
     }),
     columnHelper.display({
@@ -117,10 +127,11 @@ const EmployeeList = () => {
         return (
           <Link
             to={`/dashboard/payment/${emp.email}`}
-            className={`px-3 py-1 rounded text-white flex items-center gap-1 justify-center text-sm font-medium ${emp.verified
-                ? "bg-blue-600 hover:bg-blue-700"
-                : "bg-gray-300 cursor-not-allowed pointer-events-none"
-              }`}
+            className={`px-3 py-1 rounded text-text-main flex items-center gap-1 justify-center text-sm font-medium ${
+              emp.verified
+                ? "bg-btn hover:bg-btn-hover"
+                : "bg-gray-300 dark:bg-gray-700 cursor-not-allowed pointer-events-none"
+            }`}
           >
             <DollarSign size={16} /> Pay
           </Link>
@@ -135,7 +146,7 @@ const EmployeeList = () => {
         return (
           <button
             onClick={() => handleView(emp)}
-            className="text-blue-600 hover:underline text-sm flex items-center gap-1"
+            className="text-primary hover:underline text-sm flex items-center gap-1"
           >
             <Eye size={16} /> View
           </button>
@@ -155,16 +166,22 @@ const EmployeeList = () => {
       <Helmet>
         <title>WorkNest | EmployeeList</title>
       </Helmet>
-      <div className="p-6 max-w-7xl mx-auto">
-        <h2 className="text-3xl font-bold text-blue-600 mb-6 text-center">👥 Employee List</h2>
 
-        <div className="overflow-x-auto rounded-lg border shadow-sm bg-white">
-          <table className="min-w-full text-sm">
-            <thead className="bg-blue-50">
+      <div className="p-6 max-w-7xl mx-auto">
+        <h2 className="text-3xl font-bold text-primary dark:text-accent mb-6 text-center">
+          👥 Employee List
+        </h2>
+
+        <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-text-secondary shadow-sm dark:shadow-md bg-bg-soft dark:bg-bg-dark">
+          <table className="min-w-full text-sm text-text-main dark:text-text-secondary">
+            <thead className="text-text-main dark:text-text-secondary">
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
-                    <th key={header.id} className="px-4 py-2 text-left border-b font-medium text-gray-600">
+                    <th
+                      key={header.id}
+                      className="px-4 py-2 text-left border-b border-gray-200 dark:border-text-secondary font-medium"
+                    >
                       {flexRender(header.column.columnDef.header, header.getContext())}
                     </th>
                   ))}
@@ -174,9 +191,15 @@ const EmployeeList = () => {
             <tbody>
               {table.getRowModel().rows.length > 0 ? (
                 table.getRowModel().rows.map((row) => (
-                  <tr key={row.id} className="hover:bg-gray-50 transition">
+                  <tr
+                    key={row.id}
+                    className="hover:bg-bg-soft dark:hover:bg-bg-dark transition"
+                  >
                     {row.getVisibleCells().map((cell) => (
-                      <td key={cell.id} className="px-4 py-2 border-b">
+                      <td
+                        key={cell.id}
+                        className="px-4 py-2 border-b border-gray-200 dark:border-text-secondary"
+                      >
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </td>
                     ))}
@@ -186,7 +209,7 @@ const EmployeeList = () => {
                 <tr>
                   <td
                     colSpan={table.getAllColumns().length}
-                    className="py-6 text-center text-gray-500"
+                    className="py-6 text-center text-gray-500 dark:text-text-secondary"
                   >
                     No employee data available.
                   </td>

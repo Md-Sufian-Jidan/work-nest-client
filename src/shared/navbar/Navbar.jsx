@@ -176,7 +176,7 @@ const Navbar = () => {
   );
 
   return (
-    <nav className="w-full fixed top-0 z-50 bg-white dark:bg-bg-dark shadow-md dark:shadow-lg transition-colors">
+    <nav className="w-full fixed top-0 z-50 bg-bg-soft dark:bg-bg-dark shadow-md dark:shadow-lg transition-colors">
       <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         <Link
           to={"/"}
